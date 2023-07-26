@@ -1,5 +1,31 @@
 .App {
-  text-align: center;
+  min-width: 60vw;
+  height: 100vh;
+  background-color: #999;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: rgb(240, 139, 217); /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, rgb(240, 139, 217), rgb(139, 216, 240)); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to left,
+    rgb(139, 216, 240),
+    rgb(240, 139, 217)
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.App-container {
+  width: 80%;
+  height: 80%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #d9d9d9;
+  box-shadow:
+    4px 4px 4px 0px #fff inset,
+    4px 4px 4px 0px rgba(0, 0, 0, 0.5);
 }
 
 .App-logo {
@@ -11,17 +37,6 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-link {
