@@ -6,6 +6,7 @@ import User from "features/user/User";
 import Diary from "features/diary/Diary";
 import Page from "features/page/Page";
 import Header from "components/Header";
+import Test from "pages/Test";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/user" element={<User />} />
           <Route path="/diary" element={<Diary />} />
           <Route path="/page" element={<Page />} />
+          <Route path="/test" element={<Test />} />
         </Routes>
       </div>
     </div>
