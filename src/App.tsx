@@ -12,7 +12,6 @@ function App() {
   return (
     <div className="App">
       <div className="App-container">
-        <Header />
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/user" element={<User />} />

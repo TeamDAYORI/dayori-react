@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "98.css";
 import Input from "components/Input";
 import Button from "./../components/Button";
+import Header from "components/Header";
 
 export interface testProps {
   func: any;
@@ -19,6 +20,7 @@ const Test = () => {
 
   return (
     <div>
+      <Header title="제목" />
       <div>test</div>
       <Input
         title="TITLE"
