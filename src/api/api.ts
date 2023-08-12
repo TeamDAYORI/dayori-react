@@ -77,3 +77,5 @@ const api: ApiInterface = {
     deleteComment: () => HOST + COMMENT,
   },
 };
+
+export default api;
