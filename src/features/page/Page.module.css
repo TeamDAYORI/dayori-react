@@ -79,9 +79,48 @@
 .pageContent_container {
   display: grid;
   grid-template-rows: 2fr 1fr;
-  background-color: aqua;
+  padding: 0.5em 0.5em 0.5em 0;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
-.pageComment_container:nth-child(1) {
-  background-color: gray;
+.pageContent_content {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.8rem;
+
+  position: relative;
+  background-color: white;
+
+  /* overflow-y: scroll; */
+}
+
+.pageContent_content > span {
+  padding: 5px 10px;
+}
+
+.pageContent_content > span:nth-child(4) {
+  height: 17em;
+  overflow-y: scroll;
+}
+
+.pageContent_content > span:nth-child(1) {
+  color: #8d8bf0;
+}
+
+.pageContent_btn {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+
+  width: 100%;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+.pageComment_container:nth-child(2) {
+  margin-top: 0.5em;
+  box-sizing: border-box;
+  background-color: white;
 }
