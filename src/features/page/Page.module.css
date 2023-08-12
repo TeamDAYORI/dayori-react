@@ -1,3 +1,8 @@
+ul,
+li {
+  list-style: none;
+}
+
 .page_container {
   /* 헤더 높이만큼 뺌. */
   height: calc(100% - 3vh);
@@ -15,14 +20,12 @@
 }
 
 .pageList_cover {
-  /* height: 100%; */
   padding: 10px;
   box-sizing: border-box;
   background-color: white;
 }
 
 .pageList_contents {
-  /* height: 100%; */
   padding: 10px;
   box-sizing: border-box;
   background-color: white;
@@ -91,8 +94,6 @@
 
   position: relative;
   background-color: white;
-
-  /* overflow-y: scroll; */
 }
 
 .pageContent_content > span {
@@ -119,8 +120,50 @@
   box-sizing: border-box;
 }
 
-.pageComment_container:nth-child(2) {
+/* ---- */
+/* 댓글창 */
+/* ---- */
+
+.pageComment_container {
+  display: flex;
+  flex-direction: column;
   margin-top: 0.5em;
+  padding: 10px;
   box-sizing: border-box;
   background-color: white;
+}
+
+.pageComment_container > ul {
+  height: 7em;
+  padding-left: 0.5em;
+  overflow-y: scroll;
+}
+
+/* 댓글창 container (input + button) 설정 */
+.pageComment_input > div {
+  justify-content: center;
+  height: 4em;
+}
+
+/* 댓글창 높이 수정 */
+.pageComment_input > div > input {
+  width: 100%;
+  height: 2.5em;
+}
+
+.pageComment_container > ul > li {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+}
+
+.pageComment_container > ul > li {
+  margin-bottom: 0.5em;
+}
+
+.pageComment_container > ul > li > span:nth-child(1) {
+  color: #f08bec;
+  /* margin-right: 2em; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
