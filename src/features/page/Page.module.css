@@ -1,0 +1,87 @@
+.page_container {
+  /* 헤더 높이만큼 뺌. */
+  height: calc(100% - 3vh);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+.pageList_container {
+  display: grid;
+  grid-template-rows: 1.2fr 2.8fr;
+  height: 100%;
+  padding: 0.5em;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.pageList_cover {
+  /* height: 100%; */
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.pageList_contents {
+  /* height: 100%; */
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.pageListCard_container {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-image: linear-gradient(#fff, #fff),
+    linear-gradient(to right, rgba(139, 216, 240, 1), rgba(240, 139, 236, 1));
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+.pageListCard_img {
+  width: 50px;
+  height: 50px;
+  margin: 0 10px 0 10px;
+  border-radius: 50%;
+  background: linear-gradient(to right, rgba(139, 216, 240, 1), rgba(240, 139, 236, 1));
+}
+
+.pageListCard_content {
+  display: flex;
+  flex-direction: column;
+}
+
+/* .pageListCard_content > span:nth-child(1) {
+  margin-bottom: 5px;
+  color: #f08bec;
+} */
+
+/* .pageListCard_content > span:nth-child(2) {
+  color: lime;
+} */
+
+.pageListCard_writer {
+  margin-bottom: 5px;
+}
+
+.pageListCard_writer > span:nth-child(1) {
+  margin-right: 10px;
+  color: #f08bec;
+}
+
+.pageListCard_writer > span:nth-child(2) {
+  margin-bottom: 5px;
+  color: #8bd8f0;
+}
+
+.pageContent_container {
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  background-color: aqua;
+}
+
+.pageComment_container:nth-child(1) {
+  background-color: gray;
+}
