@@ -4,7 +4,7 @@ import "./App.css";
 import Main from "./pages/Main";
 import User from "features/user/User";
 import Diary from "features/diary/Diary";
-import Page from "features/page/Page";
+import Page from "pages/Page";
 import Header from "components/Header";
 import Test from "pages/Test";
 import Home from "pages/Home";
