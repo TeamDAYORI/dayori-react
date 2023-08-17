@@ -10,6 +10,7 @@ const InputTitleBox = styled.div`
 const InputTitleSpan = styled.span`
   font-size: 30px;
   font-weight: bold;
+  margin: 2px 0;
 `;
 
 interface Props {

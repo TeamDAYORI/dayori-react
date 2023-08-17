@@ -9,7 +9,7 @@ const InputContainer = styled.div`
   display: grid;
   align-items: center;
   grid-template-columns: 1.5fr 3fr;
-  margin: 20px 5%;
+  margin: 40px 5%;
 `;
 
 const InputContent = styled.div<{ flag: boolean }>`
@@ -20,8 +20,8 @@ const InputContent = styled.div<{ flag: boolean }>`
 interface InputProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   buttonFlag?: boolean;
   title: string;
-  buttonLabelProps: string;
-  clickFunc: any;
+  buttonLabelProps?: string;
+  clickFunc?: any;
   func: any;
   placeHolder?: string;
 }

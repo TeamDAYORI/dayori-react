@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { FaRegWindowMaximize } from "react-icons/fa";
 
 const StyledTitleBar = styled.div`
   min-height: 4vh;
@@ -30,8 +29,8 @@ const ControlButton = styled.button`
   justify-content: center;
   text-align: center;
   line-height: center;
-  height: 3vh;
-  width: 3vh;
+  /* height: 3vh;
+  width: 3vh; */
   padding: 0;
   margin: 2px;
   font-size: 2.5vh;
@@ -55,7 +54,7 @@ const Header = (props: HeaderType) => {
       <HeaderButtons className="title-bar-controls">
         {props.minimize ? <ControlButton aria-label="Minimize"></ControlButton> : <></>}
         {props.maximize ? <ControlButton aria-label="Maximize"></ControlButton> : <></>}
-        <ControlButton onClick={onClickClose} aria-label="Close"></ControlButton>
+        {props.close ? <ControlButton onClick={onClickClose} aria-label="Close"></ControlButton> : <></>}
       </HeaderButtons>
     </StyledTitleBar>
   );
