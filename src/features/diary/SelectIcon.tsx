@@ -58,13 +58,13 @@ const SelectIcon = (props: InputProps) => {
           {selectedIcon == 0 ? (
             <></>
           ) : (
-            <SelectedIcon src={require(`assets/img (${selectedIcon}).svg`)} alt={`img ${selectedIcon}`} />
+            <SelectedIcon src={require(`assets/coverIcons/img (${selectedIcon}).svg`)} alt={`img ${selectedIcon}`} />
           )}
         </IconLefts>
         <IconContainer className="sunken-panel">
           {imgList.map((item, index) => (
             <div key={index} onClick={() => setSelectedIcon(item)}>
-              <IconBox src={require(`assets/img (${item}).svg`)} alt={`img ${item}`} />
+              <IconBox src={require(`assets/coverIcons/img (${item}).svg`)} alt={`img ${item}`} />
             </div>
           ))}
         </IconContainer>
