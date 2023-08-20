@@ -6,7 +6,7 @@ const PeriodContainer = styled.div`
   display: grid;
   align-items: start;
   grid-template-columns: 1.5fr 3fr;
-  margin: 40px 5%;
+  margin: 5% 5%;
 `;
 
 const InputContainer = styled.div`
@@ -35,7 +35,7 @@ const Period = (props: InputProps) => {
         <InputTitle title={props.title}></InputTitle>
         <InputContainer>
           <InputBox type="number" onChange={onChangePeriod} />
-          <span style={{ fontSize: "20px", margin: "4px" }}>Days</span>
+          <span style={{ fontSize: "25px", margin: "4px" }}>Days</span>
         </InputContainer>
       </PeriodContainer>
     </div>

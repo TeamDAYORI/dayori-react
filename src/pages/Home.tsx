@@ -1,5 +1,8 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
+import api from "api/api";
+import { useNavigate } from "react-router-dom";
 
 const HomeWhole = styled.div`
   position: relative;
@@ -61,15 +64,67 @@ const AddDiaryButton = styled.button`
   font-size: 2vh;
 `;
 
-const DiaryImg = styled.img<{ myTurn: boolean }>`
+const ImgBox = styled.div`
+  position: relative;
+`;
+
+const DiaryImg = styled.img<{ myTurn: boolean; joined: boolean }>`
   margin: auto;
   width: 10vh;
   opacity: ${(props) => (props.myTurn ? 1 : 0.5)};
+  background-color: ${(props) => (props.joined ? 0 : "rgba(255, 251, 0, 0.35)")};
+  box-shadow: ${(props) =>
+    props.joined
+      ? 0
+      : "rgba(255, 251, 0, 0.35) 0px 54px 55px, rgba(255, 251, 0, 0.35) 0px -12px 30px, rgba(255, 251, 0, 0.35) 0px 4px 6px, rgba(255, 251, 0, 0.35) 0px 12px 13px, rgba(255, 251, 0, 0.35) 0px -3px 5px"};
+`;
+
+const NewTxt = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  background-color: yellow;
 `;
 
 const Home = () => {
+  const navigate = useNavigate();
   const username = "kiki";
-  // const diaryList = [1,2,3,4,5];
+  const [diaryList, setDiaryList] = useState([]);
+  const getList = () => {
+    axios({
+      method: "GET",
+      url: api.diary.getList(),
+      // url: "/api/diary/list",
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5MjU0MDE0NywiZXhwIjoxNjkyNTQxNTg3fQ.jpz1BDH4KGMfyGe6t6nKCSWUDr-NXw7oh2raIhdibcw",
+      },
+    }).then((res) => {
+      console.log(res.data);
+
+      setDiaryList(res.data.data);
+    });
+  };
+
+  useEffect(() => {
+    getList();
+  }, []);
+
+  const navigateAddDiary = () => {
+    navigate("/addDiary");
+  };
+
+  const clickDiary = (diaryId: number, isJoined: number) => {
+    if (isJoined == 1) {
+      navigate(`/diary/${diaryId}`);
+    }
+    if (isJoined == 0) {
+      console.log("모달 띄우기,,,");
+    }
+  };
+
   return (
     <HomeWhole>
       <StyledTitleBar className="title-bar">
@@ -78,13 +133,24 @@ const Home = () => {
       <HomeContainer>
         <HomeContentsGrid>
           <HomeContent>
-            <AddDiaryButton>추가</AddDiaryButton>
+            <AddDiaryButton onClick={navigateAddDiary}>추가</AddDiaryButton>
           </HomeContent>
-          {/* {diaryList.map((item, index) => (
+          {diaryList.map((item, index) => (
             <HomeContent key={index}>
-              <DiaryImg src={item} alt="" myTurn={true} />
+              <ImgBox>
+                <DiaryImg
+                  onClick={() => {
+                    clickDiary(item.diarySeq, item.isJoined);
+                  }}
+                  src={require(`assets/coverIcons/img (${item.diaryCover}).svg`)}
+                  alt=""
+                  myTurn={item.myTurn}
+                  joined={item.isJoined}
+                />
+                {item.isJoined == 0 ? <NewTxt>NEW</NewTxt> : <></>}
+              </ImgBox>
             </HomeContent>
-          ))} */}
+          ))}
         </HomeContentsGrid>
       </HomeContainer>
     </HomeWhole>

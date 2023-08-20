@@ -1,4 +1,6 @@
-const HOST = process.env.REACT_APP_API_BASE_URL + "/api/";
+// const HOST = process.env.REACT_APP_API_BASE_URL + "/api/";
+// const HOST = "http://localhost:8080/api/";
+const HOST = "/api/";
 
 const AUTH = "auth/";
 const USER = "user/";
@@ -21,6 +23,7 @@ interface ApiInterface {
     findUserPassword: () => string;
   };
   diary: {
+    getList: () => string;
     createDiary: () => string;
     searchInvCode: (diaryId: string) => string;
     joinDiary: (invCode: string) => string;
@@ -57,6 +60,7 @@ const api: ApiInterface = {
     findUserPassword: () => HOST + USER + "find",
   },
   diary: {
+    getList: () => HOST + DIARY + "list",
     createDiary: () => HOST + DIARY,
     searchInvCode: (diaryId) => HOST + DIARY + "diaryId/" + diaryId + "/invcode",
     joinDiary: (invCode) => HOST + DIARY + "join/" + invCode,
