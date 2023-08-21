@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 80%;
+  align-content: space-between;
+}
+
+.input {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.input span {
+  /* flex-grow: 1; */
+  font-size: xx-large;
+}
+
+.submit {
+  align-self: center;
+}
