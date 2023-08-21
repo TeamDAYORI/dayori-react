@@ -10,6 +10,10 @@ li {
   grid-template-columns: 1fr 2fr;
 }
 
+/* -------- */
+/* 페이지 목록 */
+/* -------- */
+
 .pageList_container {
   display: grid;
   grid-template-rows: 1.2fr 2.8fr;
@@ -20,32 +24,51 @@ li {
 }
 
 .pageList_cover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
   box-sizing: border-box;
   background-color: white;
+}
+
+.pageList_cover_img {
+  width: 10em;
+  height: 10em;
+  background-color: #f08bec;
+  border-radius: 50%;
 }
 
 .pageList_contents {
+  display: grid;
   padding: 10px;
   box-sizing: border-box;
   background-color: white;
 }
 
-.pageListCard_container {
+.pageListCard_container,
+.pageListCard_container_clicked {
   display: flex;
   align-items: center;
-  height: 60px;
+  width: 100%;
+  height: 3.3rem;
+  margin-bottom: 8px;
   border-radius: 10px;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   background-image: linear-gradient(#fff, #fff),
     linear-gradient(to right, rgba(139, 216, 240, 1), rgba(240, 139, 236, 1));
   background-origin: border-box;
   background-clip: content-box, border-box;
+  cursor: pointer;
+}
+
+.pageListCard_container {
+  opacity: 40%;
 }
 
 .pageListCard_img {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
   margin: 0 10px 0 10px;
   border-radius: 50%;
   background: linear-gradient(to right, rgba(139, 216, 240, 1), rgba(240, 139, 236, 1));
@@ -55,15 +78,6 @@ li {
   display: flex;
   flex-direction: column;
 }
-
-/* .pageListCard_content > span:nth-child(1) {
-  margin-bottom: 5px;
-  color: #f08bec;
-} */
-
-/* .pageListCard_content > span:nth-child(2) {
-  color: lime;
-} */
 
 .pageListCard_writer {
   margin-bottom: 5px;
@@ -79,6 +93,27 @@ li {
   color: #8bd8f0;
 }
 
+.pageList_btn {
+  display: flex;
+  flex-direction: column;
+}
+
+.pageList_btn > button {
+  margin-bottom: 10px;
+}
+
+/* .pageListCard_content > span:nth-child(1) {
+  margin-bottom: 5px;
+  color: #f08bec;
+} */
+
+/* .pageListCard_content > span:nth-child(2) {
+  color: lime;
+} */
+
+/* -------- */
+/* 페이지 내용 */
+/* -------- */
 .pageContent_container {
   display: grid;
   grid-template-rows: 2fr 1fr;
@@ -141,7 +176,6 @@ li {
 
 /* 댓글창 container (input + button) 설정 */
 .pageComment_input > div {
-  justify-content: center;
   height: 4em;
 }
 
