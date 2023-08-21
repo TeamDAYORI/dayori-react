@@ -29,6 +29,8 @@ interface ApiInterface {
     joinDiary: (invCode: string) => string;
     getDiary: () => string;
     modifyDiary: (diaryId: string) => string;
+    refuseInvitation: (diaryId: number) => string;
+    acceptInvitation: (diaryId: number) => string;
     // withdrawDiary: () => string; // 나가기? 삭제?
   };
   page: {
@@ -66,6 +68,8 @@ const api: ApiInterface = {
     joinDiary: (invCode) => HOST + DIARY + "join/" + invCode,
     getDiary: () => HOST + DIARY + "list",
     modifyDiary: (diaryId) => HOST + DIARY + diaryId,
+    refuseInvitation: (diaryId) => HOST + DIARY + "refuse/" + diaryId,
+    acceptInvitation: (diaryId) => HOST + DIARY + "accept/" + diaryId,
     // withdrawDiary: () => HOST + DIARY,
   },
   page: {

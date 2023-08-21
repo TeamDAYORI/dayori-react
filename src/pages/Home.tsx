@@ -3,11 +3,16 @@ import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import api from "api/api";
 import { useNavigate } from "react-router-dom";
+import InvitationModal from "features/diary/InvitationModal";
 
 const HomeWhole = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+`;
+
+const BackGroundModal = styled.div<{ modal: boolean }>`
+  opacity: ${(props) => (props.modal ? "0.5" : 1)};
 `;
 
 const StyledTitleBar = styled.div`
@@ -30,6 +35,7 @@ const HomeTitle = styled.p`
   bottom: 0;
   left: 1vh;
   font-size: 8vh;
+  overflow: visible;
 `;
 
 const HomeContainer = styled.div`
@@ -38,6 +44,7 @@ const HomeContainer = styled.div`
   background-color: white;
   width: 100%;
   height: calc(100% - 4vh);
+  overflow: auto;
 `;
 
 const HomeContentsGrid = styled.div`
@@ -89,6 +96,8 @@ const NewTxt = styled.div`
 `;
 
 const Home = () => {
+  // 내가 속한 다이어리 리스트 불러오기
+  // 맨처음, modalOpen 기준으로 변경되는 list 불러옴
   const navigate = useNavigate();
   const username = "kiki";
   const [diaryList, setDiaryList] = useState([]);
@@ -99,60 +108,72 @@ const Home = () => {
       // url: "/api/diary/list",
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5MjU0MDE0NywiZXhwIjoxNjkyNTQxNTg3fQ.jpz1BDH4KGMfyGe6t6nKCSWUDr-NXw7oh2raIhdibcw",
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5MjYxMjIyOSwiZXhwIjoxNjkyNjEzNjY5fQ.C7HUd8nPFiE-ec0Tl5Uuy-V9izPLM32wyxEU0Xvd9T4",
       },
     }).then((res) => {
       console.log(res.data);
-
       setDiaryList(res.data.data);
     });
   };
 
-  useEffect(() => {
-    getList();
-  }, []);
-
+  // 다이어리 추가
   const navigateAddDiary = () => {
     navigate("/addDiary");
   };
 
-  const clickDiary = (diaryId: number, isJoined: number) => {
+  // 초대 수락, 거절 Modal
+  const [modalOpen, setModalOpen] = useState(false);
+  const [openItem, setOpenItem] = useState({ name: "", seq: 0, icon: 0 });
+  const clickDiary = (diaryId: number, isJoined: number, diaryTitle: string, diaryCover: number) => {
     if (isJoined == 1) {
       navigate(`/diary/${diaryId}`);
     }
     if (isJoined == 0) {
-      console.log("모달 띄우기,,,");
+      setOpenItem({ ["name"]: diaryTitle, ["seq"]: diaryId, ["icon"]: diaryCover });
+      setModalOpen(true);
     }
   };
+  const modalOpCl = (value: boolean) => {
+    setModalOpen((modalOpen) => !modalOpen);
+  };
+  useEffect(() => {
+    getList();
+  }, [modalOpen]);
 
   return (
     <HomeWhole>
-      <StyledTitleBar className="title-bar">
-        <HomeTitle>{username} `s 다요리 </HomeTitle>
-      </StyledTitleBar>
-      <HomeContainer>
-        <HomeContentsGrid>
-          <HomeContent>
-            <AddDiaryButton onClick={navigateAddDiary}>추가</AddDiaryButton>
-          </HomeContent>
-          {diaryList.map((item, index) => (
-            <HomeContent key={index}>
-              <ImgBox>
-                <DiaryImg
-                  onClick={() => {
-                    clickDiary(item.diarySeq, item.isJoined);
-                  }}
-                  src={require(`assets/coverIcons/img (${item.diaryCover}).svg`)}
-                  alt=""
-                  myTurn={item.myTurn}
-                  joined={item.isJoined}
-                />
-                {item.isJoined == 0 ? <NewTxt>NEW</NewTxt> : <></>}
-              </ImgBox>
+      <BackGroundModal modal={modalOpen}>
+        <StyledTitleBar className="title-bar">
+          <HomeTitle>{username} `s 다요리 </HomeTitle>
+        </StyledTitleBar>
+        <HomeContainer>
+          <HomeContentsGrid>
+            <HomeContent>
+              <AddDiaryButton onClick={navigateAddDiary}>추가</AddDiaryButton>
             </HomeContent>
-          ))}
-        </HomeContentsGrid>
-      </HomeContainer>
+            {diaryList.map((item, index) => (
+              <HomeContent key={index}>
+                <ImgBox
+                  onClick={() => {
+                    clickDiary(item.diarySeq, item.isJoined, item.diaryTitle, item.diaryCover);
+                  }}
+                >
+                  <DiaryImg
+                    src={require(`assets/coverIcons/img (${item.diaryCover}).svg`)}
+                    alt=""
+                    myTurn={item.myTurn}
+                    joined={item.isJoined}
+                  />
+                  {item.isJoined == 0 ? <NewTxt>NEW</NewTxt> : <></>}
+                </ImgBox>
+              </HomeContent>
+            ))}
+          </HomeContentsGrid>
+        </HomeContainer>
+      </BackGroundModal>
+      {modalOpen && (
+        <InvitationModal setModalOpen={modalOpCl} seq={openItem.seq} title={openItem.name} icon={openItem.icon} />
+      )}
     </HomeWhole>
   );
 };
