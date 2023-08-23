@@ -9,6 +9,12 @@ import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 
+const Container = styled.div`
+  height: calc(100% - 6vh);
+  overflow: auto;
+  margin: 1vh 0;
+`;
+
 const AddButton = styled.button`
   width: 50px !important;
   height: 40px;
@@ -52,14 +58,14 @@ const CreateDiary = () => {
       url: api.diary.createDiary(),
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5MjUzMTAyMCwiZXhwIjoxNjkyNTMyNDYwfQ.p8e9lHcwQ1PyeSYV2aEisaAYx6OzNeEgfoaDzrKSw_k",
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc5MzAyMCwiZXhwIjoxNjkyNzk2NjIwfQ.guI0xIhnCCrsPKQ2NzUY6obF315KA0QjZi3J-0GbpH4",
       },
       data: {
         title: title,
         cover: icon,
         duration: period,
         password: password,
-        members: [],
+        members: members,
       },
     }).then((res) => {
       // console.log(res.data);
@@ -68,14 +74,16 @@ const CreateDiary = () => {
   };
 
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       <Header title="다요리 만들기" close={true} maximize={true}></Header>
-      <Input title="Title" buttonFlag={false} placeHolder="제목을 입력해주세요" func={titleHandler}></Input>
-      <SelectIcon title="Icon" func={iconHandler}></SelectIcon>
-      <Period title="Period" func={periodHandler}></Period>
-      <Input title="Password" buttonFlag={false} placeHolder="비밀번호를 입력해주세요" func={passwordHandler}></Input>
-      <InviteMembers title="Invite" func={membersHandler}></InviteMembers>
-      <AddButton onClick={postDiary}>만들기</AddButton>
+      <Container>
+        <Input title="Title" buttonFlag={false} placeHolder="제목을 입력해주세요" func={titleHandler}></Input>
+        <SelectIcon title="Icon" func={iconHandler}></SelectIcon>
+        <Period title="Period" func={periodHandler}></Period>
+        <Input title="Password" buttonFlag={false} placeHolder="비밀번호를 입력해주세요" func={passwordHandler}></Input>
+        <InviteMembers title="Invite" func={membersHandler}></InviteMembers>
+        <AddButton onClick={postDiary}>만들기</AddButton>
+      </Container>
     </div>
   );
 };

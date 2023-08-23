@@ -9,10 +9,11 @@ const HomeWhole = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+  font-family: "DOSGothic";
 `;
 
-const BackGroundModal = styled.div<{ modal: boolean }>`
-  opacity: ${(props) => (props.modal ? "0.5" : 1)};
+const BackGroundModal = styled.div<{ modal: string }>`
+  opacity: ${(props) => (props.modal == "true" ? "0.5" : "1")};
 `;
 
 const StyledTitleBar = styled.div`
@@ -36,6 +37,7 @@ const HomeTitle = styled.p`
   left: 1vh;
   font-size: 8vh;
   overflow: visible;
+  font-family: "DOSGothic";
 `;
 
 const HomeContainer = styled.div`
@@ -45,6 +47,7 @@ const HomeContainer = styled.div`
   width: 100%;
   height: calc(100% - 4vh);
   overflow: auto;
+  font-family: "DOSGothic";
 `;
 
 const HomeContentsGrid = styled.div`
@@ -69,6 +72,7 @@ const AddDiaryButton = styled.button`
   padding: 0;
   margin: auto;
   font-size: 2vh;
+  font-family: "DOSGothic";
 `;
 
 const ImgBox = styled.div`
@@ -108,7 +112,7 @@ const Home = () => {
       // url: "/api/diary/list",
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5MjYxMjIyOSwiZXhwIjoxNjkyNjEzNjY5fQ.C7HUd8nPFiE-ec0Tl5Uuy-V9izPLM32wyxEU0Xvd9T4",
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc5MTEzNiwiZXhwIjoxNjkyNzk0NzM2fQ.WauCQPx7AjpmXqnQKvnpUOYV_OELtdMN5R39gBMfvOk",
       },
     }).then((res) => {
       console.log(res.data);
@@ -134,7 +138,7 @@ const Home = () => {
     }
   };
   const modalOpCl = (value: boolean) => {
-    setModalOpen((modalOpen) => !modalOpen);
+    setModalOpen(value);
   };
   useEffect(() => {
     getList();
@@ -142,7 +146,7 @@ const Home = () => {
 
   return (
     <HomeWhole>
-      <BackGroundModal modal={modalOpen}>
+      <BackGroundModal modal={modalOpen.toString()}>
         <StyledTitleBar className="title-bar">
           <HomeTitle>{username} `s 다요리 </HomeTitle>
         </StyledTitleBar>
@@ -171,8 +175,10 @@ const Home = () => {
           </HomeContentsGrid>
         </HomeContainer>
       </BackGroundModal>
-      {modalOpen && (
-        <InvitationModal setModalOpen={modalOpCl} seq={openItem.seq} title={openItem.name} icon={openItem.icon} />
+      {modalOpen ? (
+        <InvitationModal func={modalOpCl} seq={openItem.seq} title={openItem.name} icon={openItem.icon} />
+      ) : (
+        <></>
       )}
     </HomeWhole>
   );

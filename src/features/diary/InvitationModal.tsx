@@ -3,7 +3,6 @@ import "98.css";
 import { styled } from "styled-components";
 import axios from "axios";
 import api from "api/api";
-import Button from "components/Button";
 
 const ModalContainer = styled.div`
   z-index: 999;
@@ -13,6 +12,7 @@ const ModalContainer = styled.div`
   transform: translate(-50%, -50%);
   width: 50%;
   height: 40%;
+  font-family: "DOSGothic";
 `;
 
 const StyledTitleBar = styled.div`
@@ -85,7 +85,7 @@ const ButtonStyle = styled.button`
 `;
 
 interface modalOpen {
-  setModalOpen: any;
+  func: any;
   seq: number;
   title: string;
   icon: number;
@@ -94,7 +94,7 @@ interface modalOpen {
 const InvitationModal = (props: modalOpen) => {
   // close this modal
   const closeModal = () => {
-    props.setModalOpen(false);
+    props.func(false);
   };
 
   // Accept Invitation
@@ -106,21 +106,28 @@ const InvitationModal = (props: modalOpen) => {
   const pwHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
+  const [warning, setWarning] = useState(false);
   const acceptInvitation = () => {
     axios({
       method: "POST",
       url: api.diary.acceptInvitation(props.seq),
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5MjYxMjIyOSwiZXhwIjoxNjkyNjEzNjY5fQ.C7HUd8nPFiE-ec0Tl5Uuy-V9izPLM32wyxEU0Xvd9T4",
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc4NjM4MiwiZXhwIjoxNjkxMDgzNDE1fQ.pEb023hc6pmadUjcORKg-gV2FeNU5JTLM_iX7Wqu2lw",
       },
       data: {
         password: password,
       },
-    }).then((res) => {
-      console.log(res.data);
-      closeModal();
-    });
+    })
+      .then((res) => {
+        console.log(res.data);
+        closeModal();
+      })
+      .catch((error) => {
+        if (error.response.status == 400) {
+          setWarning(true);
+        }
+      });
   };
 
   // Refusal of Invitation
@@ -130,7 +137,7 @@ const InvitationModal = (props: modalOpen) => {
       url: api.diary.refuseInvitation(props.seq),
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5MjYxMTY1MiwiZXhwIjoxNjkyNjEzMDkyfQ.6f5Y4TLu55uSTEJLA7oOQdY2i4-wXEXCOdIbWZ035-s",
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc4NjM4MiwiZXhwIjoxNjkxMDgzNDE1fQ.pEb023hc6pmadUjcORKg-gV2FeNU5JTLM_iX7Wqu2lw",
       },
     }).then((res) => {
       console.log(res.data);
@@ -177,6 +184,7 @@ const InvitationModal = (props: modalOpen) => {
               <BodyTxt>비밀번호를 입력하세요.</BodyTxt>
             </BodyContent>
             <PWInput type="text" onChange={pwHandler} value={password} />
+            {warning && <p>비밀번호가 다릅니다. 다시 입력해주세요.</p>}
             <ButtonStyle onClick={acceptInvitation}>확인</ButtonStyle>
           </div>
         )}

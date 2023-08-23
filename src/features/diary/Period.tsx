@@ -18,6 +18,14 @@ const InputBox = styled.input`
   height: 40px !important;
   width: 40%;
   font-size: 20px;
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 interface InputProps {
@@ -34,7 +42,7 @@ const Period = (props: InputProps) => {
       <PeriodContainer>
         <InputTitle title={props.title}></InputTitle>
         <InputContainer>
-          <InputBox type="number" onChange={onChangePeriod} />
+          <InputBox type="number" onChange={onChangePeriod} min={1} />
           <span style={{ fontSize: "25px", margin: "4px" }}>Days</span>
         </InputContainer>
       </PeriodContainer>
