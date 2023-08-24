@@ -9,7 +9,8 @@ const InputContainer = styled.div`
   display: grid;
   align-items: center;
   grid-template-columns: 1.5fr 3fr;
-  margin: 40px 5%;
+  margin: 5% 5%;
+  font-family: "DOSGothic";
 `;
 
 const InputContent = styled.div<{ flag: boolean }>`

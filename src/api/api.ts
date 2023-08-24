@@ -1,4 +1,6 @@
-const HOST = process.env.REACT_APP_API_BASE_URL + "/api/";
+// const HOST = process.env.REACT_APP_API_BASE_URL + "/api/";
+// const HOST = "http://localhost:8080/api/";
+const HOST = "/api/";
 
 const AUTH = "auth";
 const USER = "user";
@@ -21,11 +23,15 @@ interface ApiInterface {
     findUserPassword: () => string;
   };
   diary: {
+    getList: () => string;
     createDiary: () => string;
     searchInvCode: (diaryId: string) => string;
     joinDiary: (invCode: string) => string;
     getDiary: () => string;
     modifyDiary: (diaryId: string) => string;
+    refuseInvitation: (diaryId: number) => string;
+    acceptInvitation: (diaryId: number) => string;
+    searchMember: (char: string) => string;
     // withdrawDiary: () => string; // 나가기? 삭제?
   };
   page: {
@@ -57,11 +63,15 @@ const api: ApiInterface = {
     findUserPassword: () => HOST + USER + "/find",
   },
   diary: {
+    getList: () => HOST + DIARY + "list",
     createDiary: () => HOST + DIARY,
     searchInvCode: (diaryId) => HOST + DIARY + "/diaryId/" + diaryId + "/invcode",
     joinDiary: (invCode) => HOST + DIARY + "/join/" + invCode,
     getDiary: () => HOST + DIARY + "/list",
     modifyDiary: (diaryId) => HOST + DIARY + diaryId,
+    refuseInvitation: (diaryId) => HOST + DIARY + "refuse/" + diaryId,
+    acceptInvitation: (diaryId) => HOST + DIARY + "accept/" + diaryId,
+    searchMember: (char) => HOST + DIARY + "search/" + "?userName=" + char,
     // withdrawDiary: () => HOST + DIARY,
   },
   page: {

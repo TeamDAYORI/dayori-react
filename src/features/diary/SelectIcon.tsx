@@ -6,7 +6,7 @@ const InputContainer = styled.div`
   display: grid;
   align-items: start;
   grid-template-columns: 1.5fr 3fr;
-  margin: 40px 5%;
+  margin: 5% 5%;
 `;
 
 const IconContainer = styled.div`

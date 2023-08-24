@@ -19,11 +19,11 @@ body {
     "Fira Sans",
     "Droid Sans",
     "Helvetica Neue",
-    sans-serif;
+    sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: "DOSGothic", Dsource-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace !important;
 }

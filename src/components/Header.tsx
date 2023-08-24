@@ -15,8 +15,10 @@ const StyledTitleBar = styled.div`
 `;
 
 const HeaderName = styled.div`
-  font-size: 2.5vh;
+  font-family: "DOSGothic" !important;
+  font-size: 1.2rem;
   color: white;
+  margin: 2px 0;
 `;
 
 const HeaderButtons = styled.div`

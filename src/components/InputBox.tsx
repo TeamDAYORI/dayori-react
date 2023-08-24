@@ -13,6 +13,7 @@ const InputTag = styled.input`
   height: 40px !important;
   width: 100%;
   font-size: 20px;
+  font-family: "DOSGothic";
 `;
 
 const InputBox = (props: any) => {
