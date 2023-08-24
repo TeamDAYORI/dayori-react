@@ -3,12 +3,13 @@ import { styled } from "styled-components";
 import InputTitle from "components/InputTitle";
 import axios from "axios";
 import api from "api/api";
+import { AiFillCloseSquare } from "react-icons/ai";
 
 const InputContainer = styled.div`
   display: grid;
   align-items: start;
   grid-template-columns: 1.5fr 3fr;
-  margin: 5% 5%;
+  margin: 5% 5% 3%;
 `;
 
 const InputTag = styled.input`
@@ -52,12 +53,16 @@ const SelectedMembers = styled.div`
   padding: 0.5rem;
 `;
 const SelectedItem = styled.div`
+  display: flex;
+  align-items: center;
+  align-content: center;
   margin: 2px;
+  font-size: 1.4rem;
 `;
 
 const Name = styled.span`
   font-size: 1.4rem;
-  margin: 0;
+  margin: 0 2px;
 `;
 const Email = styled.span`
   font-size: 1.2rem;
@@ -74,8 +79,14 @@ interface SelectedMemberType {
   name: string;
   seq: number;
 }
+interface SearchType {
+  userSeq: number;
+  nickName: string;
+  userEmail: string;
+}
 
 const InviteMembers = (props: InputProps) => {
+  const meSeq = 1;
   const [target, setTarget] = useState<string>("");
   const [targetSeq, setTargetSeq] = useState<number>(0);
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +94,7 @@ const InviteMembers = (props: InputProps) => {
   };
 
   // 멤버 검색
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState<SearchType[]>([]);
   useEffect(() => {
     if (target != "") {
       axios({
@@ -95,7 +106,9 @@ const InviteMembers = (props: InputProps) => {
         },
       }).then((res) => {
         console.log(res.data);
-        setSearch(res.data);
+        setSearch(
+          res.data.filter((item: SearchType) => !props.members.includes(item.userSeq) && item.userSeq != meSeq),
+        );
       });
     }
   }, [target]);
@@ -127,8 +140,9 @@ const InviteMembers = (props: InputProps) => {
           </InviteInputContents>
           <SelectedMembers className="sunken-panel">
             {selectedMembers.map((item, index) => (
-              <SelectedItem key={index} onClick={() => removeMemberHandler(item.seq)}>
+              <SelectedItem key={index}>
                 <Name>{item.name}</Name>
+                <AiFillCloseSquare onClick={() => removeMemberHandler(item.seq)} />
               </SelectedItem>
             ))}
           </SelectedMembers>

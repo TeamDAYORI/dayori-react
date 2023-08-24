@@ -15,10 +15,15 @@ const Container = styled.div`
   margin: 1vh 0;
 `;
 
+const ButtonBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: end;
+`;
 const AddButton = styled.button`
-  width: 50px !important;
+  width: 8rem !important;
   height: 40px;
-  margin: 2px;
+  margin: 0 2rem 2rem;
 `;
 
 const CreateDiary = () => {
@@ -79,7 +84,9 @@ const CreateDiary = () => {
         <Period title="Period" func={periodHandler}></Period>
         <Input title="Password" buttonFlag={false} placeHolder="비밀번호를 입력해주세요" func={passwordHandler}></Input>
         <InviteMembers title="Invite" members={members} memberHandler={setMembers}></InviteMembers>
-        <AddButton onClick={postDiary}>만들기</AddButton>
+        <ButtonBox>
+          <AddButton onClick={postDiary}>생성</AddButton>
+        </ButtonBox>
       </Container>
     </div>
   );
