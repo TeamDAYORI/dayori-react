@@ -9,4 +9,10 @@ const Axios = baseAxios.create({
   },
 });
 
+Axios.interceptors.request.use((config) => {
+  const accessToken = sessionStorage.getItem("accessToken");
+  config.headers.Authorization = accessToken ? `Bearer ${accessToken}` : null;
+  return config;
+});
+
 export default Axios;

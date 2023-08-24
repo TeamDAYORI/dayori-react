@@ -7,6 +7,7 @@ import Diary from "features/diary/Diary";
 import Page from "pages/Page";
 import Header from "components/Header";
 import Test from "pages/Test";
+import Post from "pages/Post";
 import Home from "pages/Home";
 import CreateDiary from "pages/CreateDiary";
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/diary" element={<Diary />} />
           <Route path="/home" element={<Home />} />
           <Route path="/page" element={<Page />} />
+          <Route path="/post" element={<Post />} />
           <Route path="/test" element={<Test />} />
           <Route path="/adddiary" element={<CreateDiary />} />
         </Routes>

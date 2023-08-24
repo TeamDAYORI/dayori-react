@@ -10,6 +10,7 @@ interface Props {
 const Text = ({ value, type, bold }: Props) => {
   const style = {
     fontWeight: bold ? "600" : "400",
+    fontFamily: "DOSGothic",
   };
   return (
     <>
