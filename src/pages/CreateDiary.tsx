@@ -50,10 +50,6 @@ const CreateDiary = () => {
 
   const [members, setMembers] = useState([]);
 
-  useEffect(() => {
-    console.log(members);
-  }, [members]);
-
   const postDiary = () => {
     axios({
       method: "POST",
@@ -70,7 +66,6 @@ const CreateDiary = () => {
         members: members,
       },
     }).then((res) => {
-      // console.log(res.data);
       navigate(`/diary/${res.data.data}`);
     });
   };

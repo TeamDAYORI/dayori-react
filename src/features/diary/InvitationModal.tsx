@@ -3,6 +3,7 @@ import "98.css";
 import { styled } from "styled-components";
 import axios from "axios";
 import api from "api/api";
+import { useNavigate } from "react-router-dom";
 
 const ModalContainer = styled.div`
   z-index: 999;
@@ -11,12 +12,12 @@ const ModalContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 50%;
-  height: 40%;
+  height: 40vh;
   font-family: "DOSGothic";
 `;
 
 const StyledTitleBar = styled.div`
-  min-height: 3vh;
+  min-height: 2rem;
   padding: 0 10px 0 10px;
   background: #ff6e7f; /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #8bd8f0, #f08bec); /* Chrome 10-25, Safari 5.1-6 */
@@ -43,19 +44,20 @@ const ModalBody = styled.div`
   justify-content: center;
   align-items: center;
   align-content: center;
-  height: calc(100% - 4vh);
+  height: calc(100% - 2rem);
   margin: auto;
 `;
 
 const BodyContent = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-content: center;
   align-items: center;
   margin: 8px;
 `;
 const BodyTxt = styled.p`
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
   margin: 0 0.5rem;
 `;
 const DiaryImg = styled.img`
@@ -70,16 +72,23 @@ const YN = styled.div`
   margin: 1.2rem;
 `;
 const PWInput = styled.input`
-  height: 1.5rem;
+  height: 2rem !important;
   font-size: 1.2rem;
   width: 80%;
+  margin: auto 10%;
+  padding: 0 0.5rem !important;
+`;
+const WarningPW = styled.p`
+  margin: 0.8rem auto 0;
+  font-size: 0.8rem;
+  color: red;
+  text-align: center;
 `;
 const ButtonStyle = styled.button`
   font-family: "DOSGothic";
   height: 40px;
-  width: 25%;
-  margin: 0 10%;
-  padding: 0;
+  width: 30%;
+  margin: 0.8rem 35%;
   font-size: 16px;
   font-weight: bold;
 `;
@@ -92,6 +101,7 @@ interface modalOpen {
 }
 
 const InvitationModal = (props: modalOpen) => {
+  const navigate = useNavigate();
   // close this modal
   const closeModal = () => {
     props.func(false);
@@ -107,21 +117,23 @@ const InvitationModal = (props: modalOpen) => {
     setPassword(e.target.value);
   };
   const [warning, setWarning] = useState(false);
+  const [isJoined, setIsJoined] = useState(false);
   const acceptInvitation = () => {
     axios({
       method: "POST",
       url: api.diary.acceptInvitation(props.seq),
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc4NjM4MiwiZXhwIjoxNjkxMDgzNDE1fQ.pEb023hc6pmadUjcORKg-gV2FeNU5JTLM_iX7Wqu2lw",
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg2Mjk0OSwiZXhwIjoxNjkyOTQ5MzQ5fQ.RTmFmKCzF9YlPuzg9jf32vc60LnNLCwVp_cJ8Vk-CTM",
       },
       data: {
         password: password,
       },
     })
       .then((res) => {
-        console.log(res.data);
-        closeModal();
+        console.log(res);
+        setIsJoined(true);
+        // closeModal();
       })
       .catch((error) => {
         if (error.response.status == 400) {
@@ -137,10 +149,9 @@ const InvitationModal = (props: modalOpen) => {
       url: api.diary.refuseInvitation(props.seq),
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc4NjM4MiwiZXhwIjoxNjkxMDgzNDE1fQ.pEb023hc6pmadUjcORKg-gV2FeNU5JTLM_iX7Wqu2lw",
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg2MjMxMywiZXhwIjoxNjkyOTQ4NzEzfQ.SaZ0Ux_VRo_bvi42B-aebwyXYGxGnkTbjjIPA5smpUE",
       },
     }).then((res) => {
-      console.log(res.data);
       closeModal();
     });
   };
@@ -156,36 +167,52 @@ const InvitationModal = (props: modalOpen) => {
         </HeaderButtons>
       </StyledTitleBar>
       <ModalBody className="window-body">
-        {!yesContent ? (
-          <div style={{ margin: "auto" }}>
-            <BodyContent>
-              <DiaryImg src={require(`assets/coverIcons/img (${props.icon}).svg`)} />
-              <BodyTxt>[{props.title}]에</BodyTxt>
-            </BodyContent>
-            <BodyContent>
-              <BodyTxt>참여하시겠습니까?</BodyTxt>
-            </BodyContent>
-            <YN>
-              <BodyTxt style={{ color: "blue" }} onClick={clickYes}>
-                예
-              </BodyTxt>
-              <BodyTxt style={{ color: "red" }} onClick={refuseInvitation}>
-                아니오
-              </BodyTxt>
-            </YN>
-          </div>
+        {!isJoined ? (
+          !yesContent ? (
+            <div style={{ margin: "auto" }}>
+              <BodyContent>
+                <DiaryImg src={require(`assets/coverIcons/img (${props.icon}).svg`)} />
+                <BodyTxt>[{props.title}]</BodyTxt>
+              </BodyContent>
+              <BodyContent>
+                <BodyTxt>에 참여하시겠습니까?</BodyTxt>
+              </BodyContent>
+              <YN>
+                <BodyTxt style={{ color: "blue" }} onClick={clickYes}>
+                  예
+                </BodyTxt>
+                <BodyTxt style={{ color: "red" }} onClick={refuseInvitation}>
+                  아니오
+                </BodyTxt>
+              </YN>
+            </div>
+          ) : (
+            <div style={{ margin: "auto" }}>
+              <BodyContent>
+                <DiaryImg src={require(`assets/coverIcons/img (${props.icon}).svg`)} />
+                <BodyTxt>[{props.title}]</BodyTxt>
+              </BodyContent>
+              <BodyContent>
+                <BodyTxt>의 비밀번호를 입력하세요.</BodyTxt>
+              </BodyContent>
+              <PWInput type="text" onChange={pwHandler} value={password} />
+              {warning ? <WarningPW>비밀번호가 다릅니다. 다시 입력해주세요.</WarningPW> : <WarningPW>.</WarningPW>}
+              <ButtonStyle onClick={acceptInvitation}>확인</ButtonStyle>
+            </div>
+          )
         ) : (
           <div style={{ margin: "auto" }}>
             <BodyContent>
               <DiaryImg src={require(`assets/coverIcons/img (${props.icon}).svg`)} />
-              <BodyTxt>[{props.title}]의</BodyTxt>
+              <BodyTxt>[{props.title}]</BodyTxt>
             </BodyContent>
             <BodyContent>
-              <BodyTxt>비밀번호를 입력하세요.</BodyTxt>
+              <BodyTxt>에 가입했습니다!</BodyTxt>
             </BodyContent>
-            <PWInput type="text" onChange={pwHandler} value={password} />
-            {warning && <p>비밀번호가 다릅니다. 다시 입력해주세요.</p>}
-            <ButtonStyle onClick={acceptInvitation}>확인</ButtonStyle>
+            <YN>
+              <BodyTxt onClick={() => closeModal()}>홈으로</BodyTxt>
+              <BodyTxt onClick={() => navigate(`/diary/${props.seq}`)}>{props.title}로</BodyTxt>
+            </YN>
           </div>
         )}
       </ModalBody>

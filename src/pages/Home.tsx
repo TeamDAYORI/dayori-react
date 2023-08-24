@@ -86,7 +86,7 @@ const DiaryImg = styled.img<{ myTurn: boolean; joined: boolean }>`
   background-color: ${(props) => (props.joined ? 0 : "rgba(255, 251, 0, 0.35)")};
   box-shadow: ${(props) =>
     props.joined
-      ? 0
+      ? "0"
       : "rgba(255, 251, 0, 0.35) 0px 54px 55px, rgba(255, 251, 0, 0.35) 0px -12px 30px, rgba(255, 251, 0, 0.35) 0px 4px 6px, rgba(255, 251, 0, 0.35) 0px 12px 13px, rgba(255, 251, 0, 0.35) 0px -3px 5px"};
 `;
 
@@ -112,10 +112,9 @@ const Home = () => {
       // url: "/api/diary/list",
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg1NDIwOCwiZXhwIjoxNjkyOTQwNjA4fQ.q3uohXKi033IZxHfTPjXlzDI6pVHs1Ly-xe_O1rCXzA",
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg2Mjk0OSwiZXhwIjoxNjkyOTQ5MzQ5fQ.RTmFmKCzF9YlPuzg9jf32vc60LnNLCwVp_cJ8Vk-CTM",
       },
     }).then((res) => {
-      console.log(res.data);
       setDiaryList(res.data.data);
     });
   };

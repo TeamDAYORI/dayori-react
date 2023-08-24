@@ -105,7 +105,6 @@ const InviteMembers = (props: InputProps) => {
             "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg1NDIwOCwiZXhwIjoxNjkyOTQwNjA4fQ.q3uohXKi033IZxHfTPjXlzDI6pVHs1Ly-xe_O1rCXzA",
         },
       }).then((res) => {
-        console.log(res.data);
         setSearch(
           res.data.filter((item: SearchType) => !props.members.includes(item.userSeq) && item.userSeq != meSeq),
         );
