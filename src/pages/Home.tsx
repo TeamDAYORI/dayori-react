@@ -112,7 +112,7 @@ const Home = () => {
       // url: "/api/diary/list",
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc5MTEzNiwiZXhwIjoxNjkyNzk0NzM2fQ.WauCQPx7AjpmXqnQKvnpUOYV_OELtdMN5R39gBMfvOk",
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg1NDIwOCwiZXhwIjoxNjkyOTQwNjA4fQ.q3uohXKi033IZxHfTPjXlzDI6pVHs1Ly-xe_O1rCXzA",
       },
     }).then((res) => {
       console.log(res.data);

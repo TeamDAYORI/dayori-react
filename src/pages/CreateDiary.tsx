@@ -44,9 +44,6 @@ const CreateDiary = () => {
   };
 
   const [members, setMembers] = useState([]);
-  const membersHandler = (value: any) => {
-    setMembers([...members, value]);
-  };
 
   useEffect(() => {
     console.log(members);
@@ -58,7 +55,7 @@ const CreateDiary = () => {
       url: api.diary.createDiary(),
       headers: {
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc5MzAyMCwiZXhwIjoxNjkyNzk2NjIwfQ.guI0xIhnCCrsPKQ2NzUY6obF315KA0QjZi3J-0GbpH4",
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg1NDIwOCwiZXhwIjoxNjkyOTQwNjA4fQ.q3uohXKi033IZxHfTPjXlzDI6pVHs1Ly-xe_O1rCXzA",
       },
       data: {
         title: title,
@@ -81,7 +78,7 @@ const CreateDiary = () => {
         <SelectIcon title="Icon" func={iconHandler}></SelectIcon>
         <Period title="Period" func={periodHandler}></Period>
         <Input title="Password" buttonFlag={false} placeHolder="비밀번호를 입력해주세요" func={passwordHandler}></Input>
-        <InviteMembers title="Invite" func={membersHandler}></InviteMembers>
+        <InviteMembers title="Invite" members={members} memberHandler={setMembers}></InviteMembers>
         <AddButton onClick={postDiary}>만들기</AddButton>
       </Container>
     </div>

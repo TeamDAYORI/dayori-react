@@ -17,7 +17,9 @@ const InputTag = styled.input`
   font-size: 20px;
 `;
 
-const InviteContents = styled.div``;
+const InviteContents = styled.div`
+  position: relative;
+`;
 
 const InviteInputContents = styled.div`
   display: flex;
@@ -32,13 +34,19 @@ const AddButton = styled.button`
   margin: 2px;
 `;
 
-const SearchListBox = styled.div``;
+const SearchListBox = styled.div`
+  position: absolute;
+  top: 44px;
+  width: 80%;
+  max-height: 8rem;
+`;
 
 const SearchItem = styled.div`
   margin: 2px;
 `;
 
 const SelectedMembers = styled.div`
+  margin: 1rem 0;
   height: 8rem;
   overflow: auto;
   padding: 0.5rem;
@@ -59,7 +67,8 @@ const Email = styled.span`
 
 interface InputProps {
   title: string;
-  func: any;
+  members: number[];
+  memberHandler: any;
 }
 interface SelectedMemberType {
   name: string;
@@ -76,18 +85,19 @@ const InviteMembers = (props: InputProps) => {
   // 멤버 검색
   const [search, setSearch] = useState([]);
   useEffect(() => {
-    axios({
-      method: "GET",
-      url: api.diary.searchMember(target),
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjc5MTEzNiwiZXhwIjoxNjkyNzk0NzM2fQ.WauCQPx7AjpmXqnQKvnpUOYV_OELtdMN5R39gBMfvOk",
-      },
-    }).then((res) => {
-      console.log(res.data);
-
-      setSearch(res.data);
-    });
+    if (target != "") {
+      axios({
+        method: "GET",
+        url: api.diary.searchMember(target),
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg1NDIwOCwiZXhwIjoxNjkyOTQwNjA4fQ.q3uohXKi033IZxHfTPjXlzDI6pVHs1Ly-xe_O1rCXzA",
+        },
+      }).then((res) => {
+        console.log(res.data);
+        setSearch(res.data);
+      });
+    }
   }, [target]);
 
   const selectMember = (name: string, seq: number) => {
@@ -97,9 +107,13 @@ const InviteMembers = (props: InputProps) => {
 
   const [selectedMembers, setSelectedMembers] = useState<SelectedMemberType[]>([]);
   const addMemberHandler = () => {
-    props.func(targetSeq);
     setSelectedMembers([...selectedMembers, { name: target, seq: targetSeq }]);
+    props.memberHandler([...props.members, targetSeq]);
     setTarget("");
+  };
+  const removeMemberHandler = (seq: number) => {
+    setSelectedMembers(selectedMembers.filter((item) => item.seq != seq));
+    props.memberHandler(props.members.filter((item) => item != seq));
   };
 
   return (
@@ -113,7 +127,7 @@ const InviteMembers = (props: InputProps) => {
           </InviteInputContents>
           <SelectedMembers className="sunken-panel">
             {selectedMembers.map((item, index) => (
-              <SelectedItem key={index}>
+              <SelectedItem key={index} onClick={() => removeMemberHandler(item.seq)}>
                 <Name>{item.name}</Name>
               </SelectedItem>
             ))}
