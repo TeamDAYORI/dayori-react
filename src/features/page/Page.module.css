@@ -46,11 +46,18 @@ li {
   background-color: white;
 }
 
+.pageList_background {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .pageListCard_container,
-.pageListCard_container_clicked {
+.pageListCard_container_clicked,
+.pageListCard_container_none {
   display: flex;
   align-items: center;
-  width: 100%;
+  /* width: 100%; */
   height: 3.3rem;
   margin-bottom: 8px;
   border-radius: 10px;
@@ -66,6 +73,10 @@ li {
   opacity: 40%;
 }
 
+.pageListCard_container_none {
+  visibility: hidden;
+}
+
 .pageListCard_img {
   width: 35px;
   height: 35px;
@@ -77,6 +88,18 @@ li {
 .pageListCard_content {
   display: flex;
   flex-direction: column;
+}
+
+.pageListCard_content span::selection {
+  display: none;
+}
+
+/* 페이지 목록 - 타이틀 */
+.pageListCard_content > span {
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .pageListCard_writer {
@@ -102,14 +125,34 @@ li {
   margin-bottom: 10px;
 }
 
-/* .pageListCard_content > span:nth-child(1) {
-  margin-bottom: 5px;
-  color: #f08bec;
-} */
+.level-2,
+.level2 {
+  width: 70%;
+}
 
-/* .pageListCard_content > span:nth-child(2) {
-  color: lime;
-} */
+.level-2 {
+  transform: perspective(200px) rotateX(-15deg);
+}
+
+.level2 {
+  transform: perspective(200px) rotateX(15deg);
+}
+
+.level-1,
+.level1 {
+  width: 80%;
+}
+
+.level-1 {
+  transform: perspective(150px) rotateX(-5deg);
+}
+.level1 {
+  transform: perspective(150px) rotateX(5deg);
+}
+
+.level0 {
+  width: 90%;
+}
 
 /* -------- */
 /* 페이지 내용 */
