@@ -12,26 +12,38 @@ export interface PageInfoConfig {
 
 const PageList = () => {
   const navigate = useNavigate();
-  const [active, setActive] = useState(PAGE_LIST_INFO.length - 1);
-  const [clicked, setClicked] = useState(PAGE_LIST_INFO.length - 1);
+  const [active, setActive] = useState(2);
+  const [clicked, setClicked] = useState(2);
 
   const generateItems = () => {
     const tmpItems = [];
-    let level;
-    for (let i = active - 2; i < active + 3; i++) {
-      const index = i;
-      level = active - i;
-      tmpItems.push(
-        <PageListCard
-          key={index}
-          index={index}
-          level={level}
-          click={clicked}
-          itemCnt={PAGE_LIST_INFO.length}
-          pageInfo={PAGE_LIST_INFO[index]}
-          setClicked={setClicked}
-        />,
-      );
+    if (PAGE_LIST_INFO.length <= 5) {
+      PAGE_LIST_INFO.map((pageInfo: PageInfoConfig, index: number) => {
+        tmpItems.push(
+          <PageListCard
+            key={index}
+            click={clicked}
+            index={index}
+            pageInfo={PAGE_LIST_INFO[index]}
+            setClicked={setClicked}
+          />,
+        );
+      });
+    } else {
+      for (let i = active - 2; i < active + 3; i++) {
+        let index = i;
+        if (i < 0) index = PAGE_LIST_INFO.length + i;
+        else if (i >= PAGE_LIST_INFO.length) index = i % PAGE_LIST_INFO.length;
+        tmpItems.push(
+          <PageListCard
+            key={index}
+            click={clicked}
+            index={index}
+            pageInfo={PAGE_LIST_INFO[index]}
+            setClicked={setClicked}
+          />,
+        );
+      }
     }
     return tmpItems;
   };
