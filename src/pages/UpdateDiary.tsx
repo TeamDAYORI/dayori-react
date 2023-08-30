@@ -30,22 +30,22 @@ const AddButton = styled.button`
 const UpdateDiary = () => {
   const navigate = useNavigate();
   const diaryId = useParams();
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("원래 제목");
   const titleHandler = (value: string) => {
     setTitle(value);
   };
 
-  const [icon, setIcon] = useState(0);
+  const [icon, setIcon] = useState(3);
   const iconHandler = (value: number) => {
     setIcon(value);
   };
 
-  const [period, setPeriod] = useState(0);
+  const [period, setPeriod] = useState(1);
   const periodHandler = (value: number) => {
     setPeriod(value);
   };
 
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("원래비번");
   const passwordHandler = (value: string) => {
     setPassword(value);
   };
@@ -55,7 +55,7 @@ const UpdateDiary = () => {
   const postDiary = () => {
     axios({
       method: "PUT",
-      url: api.diary.modifyDiary(Number(diaryId)),
+      url: api.diary.setDiary(Number(diaryId)),
       headers: {
         Authorization: `Bearer ${selectAccessToken}`,
       },

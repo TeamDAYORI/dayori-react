@@ -27,7 +27,8 @@ interface ApiInterface {
     createDiary: () => string;
     joinDiary: (invCode: string) => string;
     getDiary: () => string;
-    modifyDiary: (diaryId: number) => string;
+    setDiary: (diaryId: number) => string;
+    updateDiary: (diaryId: number) => string;
     refuseInvitation: (diaryId: number) => string;
     acceptInvitation: (diaryId: number) => string;
     searchMember: (char: string, diaryId: number) => string;
@@ -66,7 +67,8 @@ const api: ApiInterface = {
     createDiary: () => HOST + DIARY,
     joinDiary: (invCode) => HOST + DIARY + "/join/" + invCode,
     getDiary: () => HOST + DIARY + "/list",
-    modifyDiary: (diaryId) => HOST + DIARY + "/" + diaryId,
+    setDiary: (diaryId) => HOST + DIARY + "/" + "set/" + diaryId,
+    updateDiary: (diaryId) => HOST + DIARY + "/" + diaryId,
     refuseInvitation: (diaryId) => HOST + DIARY + "refuse/" + diaryId,
     acceptInvitation: (diaryId) => HOST + DIARY + "accept/" + diaryId,
     searchMember: (char, diaryId) => HOST + DIARY + "/search/" + diaryId + "?userName=" + char,

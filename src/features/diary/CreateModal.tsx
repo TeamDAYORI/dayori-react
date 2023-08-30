@@ -15,7 +15,7 @@ const ModalContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80%;
+  width: 40%;
   height: 80vh;
   font-family: "DOSGothic";
 `;
@@ -126,8 +126,8 @@ const CreateModal = (props: createModalProps) => {
       <StyledTitleBar className="title-bar">
         <HeaderName className="title-bar-text">다요리 만들기</HeaderName>
         <HeaderButtons className="title-bar-controls">
-          <button aria-label="Minimize"></button>
-          <button aria-label="Maximize"></button>
+          {/* <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button> */}
           <button aria-label="Close" onClick={closeModal}></button>
         </HeaderButtons>
       </StyledTitleBar>
