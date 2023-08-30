@@ -25,13 +25,12 @@ interface ApiInterface {
   diary: {
     getList: () => string;
     createDiary: () => string;
-    searchInvCode: (diaryId: string) => string;
     joinDiary: (invCode: string) => string;
     getDiary: () => string;
-    modifyDiary: (diaryId: string) => string;
+    modifyDiary: (diaryId: number) => string;
     refuseInvitation: (diaryId: number) => string;
     acceptInvitation: (diaryId: number) => string;
-    searchMember: (char: string) => string;
+    searchMember: (char: string, diaryId: number) => string;
     // withdrawDiary: () => string; // 나가기? 삭제?
   };
   page: {
@@ -63,15 +62,14 @@ const api: ApiInterface = {
     findUserPassword: () => HOST + USER + "/find",
   },
   diary: {
-    getList: () => HOST + DIARY + "list",
+    getList: () => HOST + DIARY + "/list",
     createDiary: () => HOST + DIARY,
-    searchInvCode: (diaryId) => HOST + DIARY + "/diaryId/" + diaryId + "/invcode",
     joinDiary: (invCode) => HOST + DIARY + "/join/" + invCode,
     getDiary: () => HOST + DIARY + "/list",
-    modifyDiary: (diaryId) => HOST + DIARY + diaryId,
+    modifyDiary: (diaryId) => HOST + DIARY + "/" + diaryId,
     refuseInvitation: (diaryId) => HOST + DIARY + "refuse/" + diaryId,
     acceptInvitation: (diaryId) => HOST + DIARY + "accept/" + diaryId,
-    searchMember: (char) => HOST + DIARY + "search/" + "?userName=" + char,
+    searchMember: (char, diaryId) => HOST + DIARY + "/search/" + diaryId + "?userName=" + char,
     // withdrawDiary: () => HOST + DIARY,
   },
   page: {

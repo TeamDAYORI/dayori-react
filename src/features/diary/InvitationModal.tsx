@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 import axios from "axios";
 import api from "api/api";
 import { useNavigate } from "react-router-dom";
+import { selectAccessToken } from "slices/authSlice";
 
 const ModalContainer = styled.div`
   z-index: 999;
@@ -123,8 +124,7 @@ const InvitationModal = (props: modalOpen) => {
       method: "POST",
       url: api.diary.acceptInvitation(props.seq),
       headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg2Mjk0OSwiZXhwIjoxNjkyOTQ5MzQ5fQ.RTmFmKCzF9YlPuzg9jf32vc60LnNLCwVp_cJ8Vk-CTM",
+        Authorization: `Bearer ${selectAccessToken}`,
       },
       data: {
         password: password,
@@ -148,8 +148,7 @@ const InvitationModal = (props: modalOpen) => {
       method: "POST",
       url: api.diary.refuseInvitation(props.seq),
       headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg2MjMxMywiZXhwIjoxNjkyOTQ4NzEzfQ.SaZ0Ux_VRo_bvi42B-aebwyXYGxGnkTbjjIPA5smpUE",
+        Authorization: `Bearer ${selectAccessToken}`,
       },
     }).then((res) => {
       closeModal();

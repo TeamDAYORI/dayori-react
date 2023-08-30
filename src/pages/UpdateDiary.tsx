@@ -7,7 +7,7 @@ import Period from "features/diary/Period";
 import SelectIcon from "features/diary/SelectIcon";
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { selectAccessToken } from "slices/authSlice";
 
 const Container = styled.div`
@@ -27,8 +27,9 @@ const AddButton = styled.button`
   margin: 0 2rem 2rem;
 `;
 
-const CreateDiary = () => {
+const UpdateDiary = () => {
   const navigate = useNavigate();
+  const diaryId = useParams();
   const [title, setTitle] = useState("");
   const titleHandler = (value: string) => {
     setTitle(value);
@@ -53,8 +54,8 @@ const CreateDiary = () => {
 
   const postDiary = () => {
     axios({
-      method: "POST",
-      url: api.diary.createDiary(),
+      method: "PUT",
+      url: api.diary.modifyDiary(Number(diaryId)),
       headers: {
         Authorization: `Bearer ${selectAccessToken}`,
       },
@@ -72,7 +73,7 @@ const CreateDiary = () => {
 
   return (
     <div style={{ height: "100%" }}>
-      <Header title="다요리 만들기" close={true} maximize={true}></Header>
+      <Header title="다요리 설정" close={true} maximize={true}></Header>
       <Container>
         <Input title="Title" buttonFlag={false} placeHolder="제목을 입력해주세요" func={titleHandler}></Input>
         <SelectIcon title="Icon" func={iconHandler}></SelectIcon>
@@ -87,4 +88,4 @@ const CreateDiary = () => {
   );
 };
 
-export default CreateDiary;
+export default UpdateDiary;

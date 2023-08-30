@@ -4,6 +4,8 @@ import { styled } from "styled-components";
 import api from "api/api";
 import { useNavigate } from "react-router-dom";
 import InvitationModal from "features/diary/InvitationModal";
+import { selectAccessToken } from "slices/authSlice";
+import CreateModal from "features/diary/CreateModal";
 
 const HomeWhole = styled.div`
   position: relative;
@@ -111,8 +113,7 @@ const Home = () => {
       url: api.diary.getList(),
       // url: "/api/diary/list",
       headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg2Mjk0OSwiZXhwIjoxNjkyOTQ5MzQ5fQ.RTmFmKCzF9YlPuzg9jf32vc60LnNLCwVp_cJ8Vk-CTM",
+        Authorization: `Bearer ${selectAccessToken}`,
       },
     }).then((res) => {
       setDiaryList(res.data.data);
@@ -120,8 +121,12 @@ const Home = () => {
   };
 
   // 다이어리 추가
+  const [createModal, setCreateMoal] = useState(false);
   const navigateAddDiary = () => {
-    navigate("/addDiary");
+    setCreateMoal(true);
+  };
+  const createModalHandler = (value: boolean) => {
+    setCreateMoal(value);
   };
 
   // 초대 수락, 거절 Modal
@@ -145,7 +150,7 @@ const Home = () => {
 
   return (
     <HomeWhole>
-      <BackGroundModal modal={modalOpen.toString()}>
+      <BackGroundModal modal={(modalOpen || createModal).toString()}>
         <StyledTitleBar className="title-bar">
           <HomeTitle>{username} `s 다요리 </HomeTitle>
         </StyledTitleBar>
@@ -179,6 +184,7 @@ const Home = () => {
       ) : (
         <></>
       )}
+      {createModal ? <CreateModal func={createModalHandler}></CreateModal> : <></>}
     </HomeWhole>
   );
 };

@@ -4,6 +4,7 @@ import InputTitle from "components/InputTitle";
 import axios from "axios";
 import api from "api/api";
 import { AiFillCloseSquare } from "react-icons/ai";
+import { selectAccessToken } from "slices/authSlice";
 
 const InputContainer = styled.div`
   display: grid;
@@ -14,7 +15,7 @@ const InputContainer = styled.div`
 
 const InputTag = styled.input`
   height: 40px !important;
-  width: 80%;
+  width: 75%;
   font-size: 20px;
 `;
 
@@ -30,7 +31,7 @@ const InviteInputContents = styled.div`
 `;
 
 const AddButton = styled.button`
-  width: 50px !important;
+  width: 40px !important;
   height: 40px;
   margin: 2px;
 `;
@@ -38,7 +39,7 @@ const AddButton = styled.button`
 const SearchListBox = styled.div`
   position: absolute;
   top: 44px;
-  width: 80%;
+  width: 75%;
   max-height: 8rem;
 `;
 
@@ -74,6 +75,7 @@ interface InputProps {
   title: string;
   members: number[];
   memberHandler: any;
+  diaryId: number;
 }
 interface SelectedMemberType {
   name: string;
@@ -99,15 +101,12 @@ const InviteMembers = (props: InputProps) => {
     if (target != "") {
       axios({
         method: "GET",
-        url: api.diary.searchMember(target),
+        url: api.diary.searchMember(target, props.diaryId),
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg1NDIwOCwiZXhwIjoxNjkyOTQwNjA4fQ.q3uohXKi033IZxHfTPjXlzDI6pVHs1Ly-xe_O1rCXzA",
+          Authorization: `Bearer ${selectAccessToken}`,
         },
       }).then((res) => {
-        setSearch(
-          res.data.filter((item: SearchType) => !props.members.includes(item.userSeq) && item.userSeq != meSeq),
-        );
+        setSearch(res.data.filter((item: SearchType) => !props.members.includes(item.userSeq)));
       });
     }
   }, [target]);
