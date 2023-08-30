@@ -2,28 +2,28 @@ import { PageInfoConfig } from "./PageList";
 
 const PAGE_LIST_INFO: PageInfoConfig[] = [
   {
-    title: "1",
-    writer: "writer1",
+    title: "망곰이는 울지 않아",
+    writer: "mangom2",
     date: "date1",
   },
   {
-    title: "2",
-    writer: "writer2",
+    title: "스프링 마스터 되어버리기",
+    writer: "jhkang",
     date: "date2",
   },
   {
-    title: "3",
-    writer: "writer3",
+    title: "식목일 이벤트 후기>...",
+    writer: "KiKi",
     date: "date3",
   },
   {
-    title: "4",
-    writer: "writer4",
+    title: "파이썬과 자바 그...",
+    writer: "woowonkim",
     date: "date4",
   },
   {
-    title: "5",
-    writer: "writer5",
+    title: "박찬의 스타일기 1편...",
+    writer: "chan2",
     date: "date5",
   },
   {
