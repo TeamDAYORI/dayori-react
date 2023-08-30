@@ -20,6 +20,7 @@ const InputContent = styled.div<{ flag: boolean }>`
 
 interface InputProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   buttonFlag?: boolean;
+  value?: string;
   title: string;
   buttonLabelProps?: string;
   clickFunc?: any;
@@ -35,7 +36,12 @@ const Input = (props: InputProps & testProps) => {
     <InputContainer>
       <InputTitle title={props.title}></InputTitle>
       <InputContent flag={props.buttonFlag}>
-        <InputBox change={onChangeValue} buttonFlag={props.buttonFlag} placeHolder={props.placeHolder}></InputBox>
+        <InputBox
+          change={onChangeValue}
+          value={props.value}
+          buttonFlag={props.buttonFlag}
+          placeHolder={props.placeHolder}
+        ></InputBox>
         {props.buttonFlag == true ? (
           <SubmitButton labelprops={props.buttonLabelProps} onClick={props.clickFunc}></SubmitButton>
         ) : (

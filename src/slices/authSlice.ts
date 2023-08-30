@@ -20,6 +20,8 @@ const authSlice = createSlice({
 });
 
 export const { setAccessToken } = authSlice.actions;
-export const selectAccessToken = (state: rootState) => state.auth.accessToken;
+// export const selectAccessToken = (state: rootState) => state.auth.accessToken;
+export const selectAccessToken =
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5MzM4NDQ4MywiZXhwIjoxNjkzNDcwODgzfQ.F7ud7-e9OsAj7uAc9h8DakGLpZkxIg_jm6OqvvcxShI";
 
 export default authSlice.reducer;

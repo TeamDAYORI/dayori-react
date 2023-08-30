@@ -35,6 +35,7 @@ const IconBox = styled.img`
 
 interface InputProps {
   title: string;
+  origin?: number;
   func: any;
 }
 
@@ -45,7 +46,7 @@ const SelectIcon = (props: InputProps) => {
     61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89,
     90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100,
   ];
-  const [selectedIcon, setSelectedIcon] = useState(0);
+  const [selectedIcon, setSelectedIcon] = useState(props.origin);
 
   useEffect(() => {
     props.func(selectedIcon);
@@ -55,7 +56,7 @@ const SelectIcon = (props: InputProps) => {
       <InputContainer>
         <IconLefts>
           <InputTitle title={props.title}></InputTitle>
-          {selectedIcon == 0 ? (
+          {selectedIcon === 0 ? (
             <></>
           ) : (
             <SelectedIcon src={require(`assets/coverIcons/img (${selectedIcon}).svg`)} alt={`img ${selectedIcon}`} />
