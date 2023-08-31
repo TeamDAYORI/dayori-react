@@ -81,15 +81,6 @@ const ImgBox = styled.div`
   position: relative;
 `;
 
-const ModalBack = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100vw;
-  height: 100vh;
-`;
-
 const DiaryImg = styled.img<{ myTurn: boolean; joined: boolean }>`
   margin: auto;
   width: 10vh;
@@ -120,7 +111,6 @@ const Home = () => {
     axios({
       method: "GET",
       url: api.diary.getList(),
-      // url: "/api/diary/list",
       headers: {
         Authorization: `Bearer ${selectAccessToken}`,
       },
@@ -157,22 +147,9 @@ const Home = () => {
     getList();
   }, [modalOpen]);
 
-  // 모달 바깥부분 닫기
-  const modalRef = useRef<HTMLDivElement>(null);
-  // curentTarget을 지정하기 위한 useRef
-
-  const closeAllModal = (e: any) => {
-    if (modalRef.current === e.target) {
-      if (modalOpen || createModal) {
-        setModalOpen(false);
-        setCreateMoal(false);
-      }
-    }
-  };
-
   return (
     <HomeWhole>
-      <BackGroundModal modal={(modalOpen || createModal).toString()} onClick={closeAllModal}>
+      <BackGroundModal modal={(modalOpen || createModal).toString()}>
         <StyledTitleBar className="title-bar">
           <HomeTitle>{username} `s 다요리 </HomeTitle>
         </StyledTitleBar>
@@ -202,19 +179,11 @@ const Home = () => {
         </HomeContainer>
       </BackGroundModal>
       {modalOpen ? (
-        <ModalBack ref={modalRef} onClick={(e) => closeAllModal(e)}>
-          <InvitationModal func={modalOpCl} seq={openItem.seq} title={openItem.name} icon={openItem.icon} />
-        </ModalBack>
+        <InvitationModal func={modalOpCl} seq={openItem.seq} title={openItem.name} icon={openItem.icon} />
       ) : (
         <></>
       )}
-      {createModal ? (
-        <ModalBack ref={modalRef} onClick={(e) => closeAllModal(e)}>
-          <CreateModal func={createModalHandler}></CreateModal>
-        </ModalBack>
-      ) : (
-        <></>
-      )}
+      {createModal ? <CreateModal func={createModalHandler}></CreateModal> : <></>}
     </HomeWhole>
   );
 };
