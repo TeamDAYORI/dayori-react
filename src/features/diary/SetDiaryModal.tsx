@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { styled } from "styled-components";
 import api from "api/api";
 import Input from "components/Input";
@@ -18,6 +18,12 @@ const AddButton = styled.button`
   width: 8rem !important;
   height: 40px;
   margin: 0 2rem 2rem;
+`;
+const Text = styled.p<{ flag: string }>`
+  color: ${(props) => (props.flag === "true" ? "red" : "#a587ff")};
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 3% 5%;
 `;
 
 // 부모노드에
@@ -56,16 +62,27 @@ const SetDiaryModal = (props: settingModalProps) => {
 
   const [members, setMembers] = useState([]);
 
-  const postDiary = () => {
-    Axios.put(api.diary.setDiary(diaryId), {
-      title: title,
-      cover: icon,
-      period: period,
-      password: password,
-      additionalMembers: members,
-    }).then((res) => {
-      navigate(`/diary/${res.data.data}`);
-    });
+  const [warning, setWarning] = useState(false);
+  const textRef = useRef<HTMLDivElement>(null);
+  const voidContent = () => {
+    textRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const putDiary = () => {
+    if (title === "" || icon === 0 || period === 0 || password === "") {
+      setWarning(true);
+      voidContent();
+    } else {
+      Axios.put(api.diary.setDiary(diaryId), {
+        title: title,
+        cover: icon,
+        period: period,
+        password: password,
+        additionalMembers: members,
+      }).then((res) => {
+        navigate(`/diary/${res.data.data}`);
+      });
+    }
   };
 
   return (
@@ -74,6 +91,9 @@ const SetDiaryModal = (props: settingModalProps) => {
       title="다요리 수정"
       element={
         <>
+          <Text flag={warning.toString()} ref={textRef}>
+            제목, 아이콘, 기간, 비밀번호는 필수로 작성해주세요!
+          </Text>
           <Input
             title="Title"
             value={title}
@@ -92,7 +112,7 @@ const SetDiaryModal = (props: settingModalProps) => {
           ></Input>
           <InviteMembers title="Invite" members={members} memberHandler={setMembers} diaryId={diaryId}></InviteMembers>
           <ButtonBox>
-            <AddButton onClick={postDiary}>생성</AddButton>
+            <AddButton onClick={putDiary}>수정</AddButton>
           </ButtonBox>
         </>
       }
