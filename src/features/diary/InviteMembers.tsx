@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "styled-components";
 import InputTitle from "components/InputTitle";
-import axios from "axios";
 import api from "api/api";
 import { AiFillCloseSquare } from "react-icons/ai";
-import { selectAccessToken } from "slices/authSlice";
+import Axios from "api/JsonAxios";
 
 const InputContainer = styled.div`
   display: grid;
@@ -99,13 +98,7 @@ const InviteMembers = (props: InputProps) => {
   const [search, setSearch] = useState<SearchType[]>([]);
   useEffect(() => {
     if (target != "") {
-      axios({
-        method: "GET",
-        url: api.diary.searchMember(target, props.diaryId),
-        headers: {
-          Authorization: `Bearer ${selectAccessToken}`,
-        },
-      }).then((res) => {
+      Axios.get(api.diary.searchMember(target, props.diaryId)).then((res) => {
         setSearch(res.data.filter((item: SearchType) => !props.members.includes(item.userSeq)));
       });
     }

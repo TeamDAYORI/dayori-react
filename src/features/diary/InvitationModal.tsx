@@ -1,10 +1,9 @@
 import React, { useRef, useState } from "react";
 import "98.css";
 import { styled } from "styled-components";
-import axios from "axios";
 import api from "api/api";
 import { useNavigate } from "react-router-dom";
-import { selectAccessToken } from "slices/authSlice";
+import Axios from "api/JsonAxios";
 
 const ModalContainer = styled.div`
   z-index: 999;
@@ -139,15 +138,8 @@ const InvitationModal = (props: modalOpen) => {
   const [warning, setWarning] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
   const acceptInvitation = () => {
-    axios({
-      method: "POST",
-      url: api.diary.acceptInvitation(props.seq),
-      headers: {
-        Authorization: `Bearer ${selectAccessToken}`,
-      },
-      data: {
-        password: password,
-      },
+    Axios.post(api.diary.acceptInvitation(props.seq), {
+      password: password,
     })
       .then((res) => {
         console.log(res);
@@ -163,13 +155,7 @@ const InvitationModal = (props: modalOpen) => {
 
   // Refusal of Invitation
   const refuseInvitation = () => {
-    axios({
-      method: "POST",
-      url: api.diary.refuseInvitation(props.seq),
-      headers: {
-        Authorization: `Bearer ${selectAccessToken}`,
-      },
-    }).then((res) => {
+    Axios.post(api.diary.refuseInvitation(props.seq)).then((res) => {
       closeModal();
     });
   };

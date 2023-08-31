@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import axios from "axios";
 import api from "api/api";
 import Input from "components/Input";
 import InviteMembers from "features/diary/InviteMembers";
 import Period from "features/diary/Period";
 import SelectIcon from "features/diary/SelectIcon";
 import { useNavigate } from "react-router-dom";
-import { selectAccessToken } from "slices/authSlice";
 import CUModal from "./CUModal";
+import Axios from "api/JsonAxios";
 
 const ButtonBox = styled.div`
   width: 100%;
@@ -51,19 +50,12 @@ const CreateModal = (props: createModalProps) => {
   const [members, setMembers] = useState([]);
 
   const postDiary = () => {
-    axios({
-      method: "POST",
-      url: api.diary.createDiary(),
-      headers: {
-        Authorization: `Bearer ${selectAccessToken}`,
-      },
-      data: {
-        title: title,
-        cover: icon,
-        duration: period,
-        password: password,
-        members: members,
-      },
+    Axios.post(api.diary.createDiary(), {
+      title: title,
+      cover: icon,
+      duration: period,
+      password: password,
+      members: members,
     }).then((res) => {
       navigate(`/diary/${res.data.data}`);
     });
