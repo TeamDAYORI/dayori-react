@@ -104,16 +104,21 @@ const InviteMembers = (props: InputProps) => {
     }
   }, [target]);
 
+  const [addAble, setAddAble] = useState(false);
   const selectMember = (name: string, seq: number) => {
     setTarget(name);
     setTargetSeq(seq);
+    setAddAble(true);
   };
 
   const [selectedMembers, setSelectedMembers] = useState<SelectedMemberType[]>([]);
   const addMemberHandler = () => {
-    setSelectedMembers([...selectedMembers, { name: target, seq: targetSeq }]);
-    props.memberHandler([...props.members, targetSeq]);
-    setTarget("");
+    if (addAble) {
+      setSelectedMembers([...selectedMembers, { name: target, seq: targetSeq }]);
+      props.memberHandler([...props.members, targetSeq]);
+      setTarget("");
+      setTargetSeq(0);
+    }
   };
   const removeMemberHandler = (seq: number) => {
     setSelectedMembers(selectedMembers.filter((item) => item.seq != seq));
@@ -127,7 +132,9 @@ const InviteMembers = (props: InputProps) => {
         <InviteContents>
           <InviteInputContents>
             <InputTag type="text" onChange={changeHandler} value={target}></InputTag>
-            <AddButton onClick={addMemberHandler}>추가</AddButton>
+            <AddButton onClick={addMemberHandler} disabled={!addAble}>
+              추가
+            </AddButton>
           </InviteInputContents>
           <SelectedMembers className="sunken-panel">
             {selectedMembers.map((item, index) => (
