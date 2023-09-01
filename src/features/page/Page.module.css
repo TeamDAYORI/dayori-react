@@ -3,9 +3,20 @@ li {
   list-style: none;
 }
 
+/* emoji 라이브러리 버튼 CSS 초기화 */
+.postWrite_emoji button {
+  all: unset;
+}
+
+.box_shadow {
+  box-shadow:
+    0px 2px 2px 0px rgba(0, 0, 0, 0.25) inset,
+    0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+}
+
 .page_container {
   /* 헤더 높이만큼 뺌. */
-  height: calc(100% - 3vh);
+  height: calc(100% - 4vh);
   display: grid;
   grid-template-columns: 1fr 2fr;
 }
@@ -20,7 +31,6 @@ li {
   height: 100%;
   padding: 0.5em;
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .pageList_cover {
@@ -119,7 +129,6 @@ li {
   grid-template-rows: 2fr 1fr;
   padding: 0.5em 0.5em 0.5em 0;
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .pageContent_content {
@@ -200,4 +209,95 @@ li {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/*-----------------------------------*/
+.post_container {
+  height: calc(100% - 4vh);
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.postWrite_container {
+  padding: 0.5em;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.postWrite_contents {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: white;
+  box-shadow:
+    0px 2px 2px 0px rgba(0, 0, 0, 0.25) inset,
+    0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+}
+
+.postWrite_contents span:nth-child(1) {
+  color: purple;
+}
+
+.postWrite_contents textarea:nth-child(4) {
+  height: 100%;
+  padding: 10px;
+  box-shadow: none;
+  border: 1px solid #f08bec;
+  border-radius: 10px;
+  font-size: large;
+  font-family: "DOSGothic";
+  margin-bottom: 1em;
+}
+
+.postWrite_title {
+  display: flex;
+}
+
+.postWrite_title span:nth-child(1) {
+  font-size: 2.25em;
+}
+
+.postWrite_input input:nth-child(1) {
+  width: 100%;
+  margin-top: 0.4em;
+  box-shadow: none;
+  font-size: large;
+  font-family: "DOSGothic";
+}
+
+.postWrite_emoji {
+  position: absolute;
+  top: 7em;
+  all: none;
+}
+
+.postWriteInfo_container {
+  display: grid;
+  grid-template-rows: 1.2fr 2.8fr;
+  padding: 0.5em;
+  box-sizing: border-box;
+}
+
+.postWriteInfo_container div {
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.postWriteInfo_cover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.postWriteInfo_sticker > div:nth-child(2) > button {
+  width: 100%;
+}
+
+.postWriteInfo_button > button {
+  width: 100%;
+  margin-left: 0;
+  margin-bottom: 1em;
 }
