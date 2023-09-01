@@ -5,12 +5,16 @@ interface Props {
   value: string;
   type?: "caption" | "text" | "title";
   bold?: boolean;
+  underline?: boolean;
+  cursor?: boolean;
 }
 
-const Text = ({ value, type, bold }: Props) => {
+const Text = ({ value, type, bold, underline, cursor }: Props) => {
   const style = {
     fontWeight: bold ? "600" : "400",
     fontFamily: "DOSGothic",
+    textDecoration: underline ? "underline" : null,
+    cursor: cursor ? "pointer" : null,
   };
   return (
     <>
