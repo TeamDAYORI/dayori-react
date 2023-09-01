@@ -31,6 +31,7 @@ const InputBox = styled.input`
 interface InputProps {
   title: string;
   func: any;
+  value?: number;
 }
 
 const Period = (props: InputProps) => {
@@ -42,7 +43,7 @@ const Period = (props: InputProps) => {
       <PeriodContainer>
         <InputTitle title={props.title}></InputTitle>
         <InputContainer>
-          <InputBox type="number" onChange={onChangePeriod} min={1} />
+          <InputBox type="number" value={props.value} onChange={onChangePeriod} min={1} />
           <span style={{ fontSize: "25px", margin: "4px" }}>Days</span>
         </InputContainer>
       </PeriodContainer>

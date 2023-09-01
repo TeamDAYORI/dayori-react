@@ -3,6 +3,7 @@ import "98.css";
 import Input from "components/Input";
 import Button from "./../components/Button";
 import Header from "components/Header";
+import SetDiaryModal from "features/diary/SetDiaryModal";
 
 export interface testProps {
   func: any;
@@ -14,6 +15,14 @@ const Test = () => {
     setTest(value);
   };
 
+  const [modal, setModal] = useState(false);
+  const modalHandler = () => {
+    setModal(true);
+  };
+  const fun = (value: boolean) => {
+    setModal(value);
+  };
+
   const testButton = (contents: string) => {
     console.log(test);
   };
@@ -21,7 +30,7 @@ const Test = () => {
   return (
     <div>
       <Header title="제목" />
-      <div>test</div>
+      <div onClick={modalHandler}>test</div>
       <Input
         title="TITLE"
         buttonLabelProps="버튼 확인"
@@ -32,6 +41,7 @@ const Test = () => {
       ></Input>
 
       <Button content="취소"></Button>
+      {modal ? <SetDiaryModal func={fun}></SetDiaryModal> : <></>}
     </div>
   );
 };

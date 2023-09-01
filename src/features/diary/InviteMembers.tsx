@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "styled-components";
 import InputTitle from "components/InputTitle";
-import axios from "axios";
 import api from "api/api";
 import { AiFillCloseSquare } from "react-icons/ai";
+import Axios from "api/JsonAxios";
 
 const InputContainer = styled.div`
   display: grid;
@@ -14,7 +14,7 @@ const InputContainer = styled.div`
 
 const InputTag = styled.input`
   height: 40px !important;
-  width: 80%;
+  width: 75%;
   font-size: 20px;
 `;
 
@@ -30,7 +30,7 @@ const InviteInputContents = styled.div`
 `;
 
 const AddButton = styled.button`
-  width: 50px !important;
+  width: 40px !important;
   height: 40px;
   margin: 2px;
 `;
@@ -38,7 +38,7 @@ const AddButton = styled.button`
 const SearchListBox = styled.div`
   position: absolute;
   top: 44px;
-  width: 80%;
+  width: 75%;
   max-height: 8rem;
 `;
 
@@ -74,6 +74,7 @@ interface InputProps {
   title: string;
   members: number[];
   memberHandler: any;
+  diaryId: number;
 }
 interface SelectedMemberType {
   name: string;
@@ -97,31 +98,27 @@ const InviteMembers = (props: InputProps) => {
   const [search, setSearch] = useState<SearchType[]>([]);
   useEffect(() => {
     if (target != "") {
-      axios({
-        method: "GET",
-        url: api.diary.searchMember(target),
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTExQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg1NDIwOCwiZXhwIjoxNjkyOTQwNjA4fQ.q3uohXKi033IZxHfTPjXlzDI6pVHs1Ly-xe_O1rCXzA",
-        },
-      }).then((res) => {
-        setSearch(
-          res.data.filter((item: SearchType) => !props.members.includes(item.userSeq) && item.userSeq != meSeq),
-        );
+      Axios.get(api.diary.searchMember(target, props.diaryId)).then((res) => {
+        setSearch(res.data.filter((item: SearchType) => !props.members.includes(item.userSeq)));
       });
     }
   }, [target]);
 
+  const [addAble, setAddAble] = useState(false);
   const selectMember = (name: string, seq: number) => {
     setTarget(name);
     setTargetSeq(seq);
+    setAddAble(true);
   };
 
   const [selectedMembers, setSelectedMembers] = useState<SelectedMemberType[]>([]);
   const addMemberHandler = () => {
-    setSelectedMembers([...selectedMembers, { name: target, seq: targetSeq }]);
-    props.memberHandler([...props.members, targetSeq]);
-    setTarget("");
+    if (addAble) {
+      setSelectedMembers([...selectedMembers, { name: target, seq: targetSeq }]);
+      props.memberHandler([...props.members, targetSeq]);
+      setTarget("");
+      setTargetSeq(0);
+    }
   };
   const removeMemberHandler = (seq: number) => {
     setSelectedMembers(selectedMembers.filter((item) => item.seq != seq));
@@ -135,7 +132,9 @@ const InviteMembers = (props: InputProps) => {
         <InviteContents>
           <InviteInputContents>
             <InputTag type="text" onChange={changeHandler} value={target}></InputTag>
-            <AddButton onClick={addMemberHandler}>추가</AddButton>
+            <AddButton onClick={addMemberHandler} disabled={!addAble}>
+              추가
+            </AddButton>
           </InviteInputContents>
           <SelectedMembers className="sunken-panel">
             {selectedMembers.map((item, index) => (

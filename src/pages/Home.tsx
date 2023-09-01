@@ -1,9 +1,10 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import api from "api/api";
 import { useNavigate } from "react-router-dom";
 import InvitationModal from "features/diary/InvitationModal";
+import CreateModal from "features/diary/CreateModal";
+import Axios from "api/JsonAxios";
 
 const HomeWhole = styled.div`
   position: relative;
@@ -79,10 +80,10 @@ const ImgBox = styled.div`
   position: relative;
 `;
 
-const DiaryImg = styled.img<{ myTurn: boolean; joined: boolean }>`
+const DiaryImg = styled.img<{ myturn: boolean; joined: boolean }>`
   margin: auto;
   width: 10vh;
-  opacity: ${(props) => (props.myTurn ? 1 : 0.5)};
+  opacity: ${(props) => (props.myturn ? 1 : 0.5)};
   background-color: ${(props) => (props.joined ? 0 : "rgba(255, 251, 0, 0.35)")};
   box-shadow: ${(props) =>
     props.joined
@@ -106,22 +107,18 @@ const Home = () => {
   const username = "kiki";
   const [diaryList, setDiaryList] = useState([]);
   const getList = () => {
-    axios({
-      method: "GET",
-      url: api.diary.getList(),
-      // url: "/api/diary/list",
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1bmhoeXllZTIyQGdtYWlsLmNvbSIsImlhdCI6MTY5Mjg2Mjk0OSwiZXhwIjoxNjkyOTQ5MzQ5fQ.RTmFmKCzF9YlPuzg9jf32vc60LnNLCwVp_cJ8Vk-CTM",
-      },
-    }).then((res) => {
+    Axios.get(api.diary.getList()).then((res) => {
       setDiaryList(res.data.data);
     });
   };
 
   // 다이어리 추가
+  const [createModal, setCreateMoal] = useState(false);
   const navigateAddDiary = () => {
-    navigate("/addDiary");
+    setCreateMoal(true);
+  };
+  const createModalHandler = (value: boolean) => {
+    setCreateMoal(value);
   };
 
   // 초대 수락, 거절 Modal
@@ -145,7 +142,7 @@ const Home = () => {
 
   return (
     <HomeWhole>
-      <BackGroundModal modal={modalOpen.toString()}>
+      <BackGroundModal modal={(modalOpen || createModal).toString()}>
         <StyledTitleBar className="title-bar">
           <HomeTitle>{username} `s 다요리 </HomeTitle>
         </StyledTitleBar>
@@ -164,7 +161,7 @@ const Home = () => {
                   <DiaryImg
                     src={require(`assets/coverIcons/img (${item.diaryCover}).svg`)}
                     alt=""
-                    myTurn={item.myTurn}
+                    myturn={item.myTurn}
                     joined={item.isJoined}
                   />
                   {item.isJoined == 0 ? <NewTxt>NEW</NewTxt> : <></>}
@@ -179,6 +176,7 @@ const Home = () => {
       ) : (
         <></>
       )}
+      {createModal ? <CreateModal func={createModalHandler}></CreateModal> : <></>}
     </HomeWhole>
   );
 };

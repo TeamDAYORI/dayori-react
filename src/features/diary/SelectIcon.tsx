@@ -35,6 +35,7 @@ const IconBox = styled.img`
 
 interface InputProps {
   title: string;
+  origin?: number;
   func: any;
 }
 
@@ -49,6 +50,9 @@ const SelectIcon = (props: InputProps) => {
 
   useEffect(() => {
     props.func(selectedIcon);
+    if (props.origin !== 0) {
+      setSelectedIcon(props.origin);
+    }
   }, [selectedIcon]);
   return (
     <div>

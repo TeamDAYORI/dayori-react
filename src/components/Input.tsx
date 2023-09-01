@@ -13,13 +13,14 @@ const InputContainer = styled.div`
   font-family: "DOSGothic";
 `;
 
-const InputContent = styled.div<{ flag: boolean }>`
+const InputContent = styled.div<{ flag: string }>`
   display: grid;
-  grid-template-columns: ${(props) => (props.flag ? "2fr 1fr" : "1fr")};
+  grid-template-columns: ${(props) => (props.flag === "true" ? "2fr 1fr" : "1fr")};
 `;
 
 interface InputProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   buttonFlag?: boolean;
+  value?: string;
   title: string;
   buttonLabelProps?: string;
   clickFunc?: any;
@@ -34,8 +35,13 @@ const Input = (props: InputProps & testProps) => {
   return (
     <InputContainer>
       <InputTitle title={props.title}></InputTitle>
-      <InputContent flag={props.buttonFlag}>
-        <InputBox change={onChangeValue} buttonFlag={props.buttonFlag} placeHolder={props.placeHolder}></InputBox>
+      <InputContent flag={props.buttonFlag.toString()}>
+        <InputBox
+          change={onChangeValue}
+          value={props.value}
+          buttonFlag={props.buttonFlag}
+          placeHolder={props.placeHolder}
+        ></InputBox>
         {props.buttonFlag == true ? (
           <SubmitButton labelprops={props.buttonLabelProps} onClick={props.clickFunc}></SubmitButton>
         ) : (
