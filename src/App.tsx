@@ -10,6 +10,7 @@ import Test from "pages/Test";
 import Post from "pages/Post";
 import Home from "pages/Home";
 import CreateDiary from "pages/CreateDiary";
+import Login from "features/user/Login";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <div className="App-container">
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="login" element={<Login />} />
           <Route path="/user" element={<User />} />
           <Route path="/diary/:diaryId" element={<Diary />} />
           <Route path="/home" element={<Home />} />
