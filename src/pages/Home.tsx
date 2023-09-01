@@ -1,11 +1,10 @@
-import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import api from "api/api";
 import { useNavigate } from "react-router-dom";
 import InvitationModal from "features/diary/InvitationModal";
-import { selectAccessToken } from "slices/authSlice";
 import CreateModal from "features/diary/CreateModal";
+import Axios from "api/JsonAxios";
 
 const HomeWhole = styled.div`
   position: relative;
@@ -81,19 +80,10 @@ const ImgBox = styled.div`
   position: relative;
 `;
 
-const ModalBack = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100vw;
-  height: 100vh;
-`;
-
-const DiaryImg = styled.img<{ myTurn: boolean; joined: boolean }>`
+const DiaryImg = styled.img<{ myturn: boolean; joined: boolean }>`
   margin: auto;
   width: 10vh;
-  opacity: ${(props) => (props.myTurn ? 1 : 0.5)};
+  opacity: ${(props) => (props.myturn ? 1 : 0.5)};
   background-color: ${(props) => (props.joined ? 0 : "rgba(255, 251, 0, 0.35)")};
   box-shadow: ${(props) =>
     props.joined
@@ -117,14 +107,7 @@ const Home = () => {
   const username = "kiki";
   const [diaryList, setDiaryList] = useState([]);
   const getList = () => {
-    axios({
-      method: "GET",
-      url: api.diary.getList(),
-      // url: "/api/diary/list",
-      headers: {
-        Authorization: `Bearer ${selectAccessToken}`,
-      },
-    }).then((res) => {
+    Axios.get(api.diary.getList()).then((res) => {
       setDiaryList(res.data.data);
     });
   };
@@ -157,22 +140,9 @@ const Home = () => {
     getList();
   }, [modalOpen]);
 
-  // 모달 바깥부분 닫기
-  const modalRef = useRef<HTMLDivElement>(null);
-  // curentTarget을 지정하기 위한 useRef
-
-  const closeAllModal = (e: any) => {
-    if (modalRef.current === e.target) {
-      if (modalOpen || createModal) {
-        setModalOpen(false);
-        setCreateMoal(false);
-      }
-    }
-  };
-
   return (
     <HomeWhole>
-      <BackGroundModal modal={(modalOpen || createModal).toString()} onClick={closeAllModal}>
+      <BackGroundModal modal={(modalOpen || createModal).toString()}>
         <StyledTitleBar className="title-bar">
           <HomeTitle>{username} `s 다요리 </HomeTitle>
         </StyledTitleBar>
@@ -191,7 +161,7 @@ const Home = () => {
                   <DiaryImg
                     src={require(`assets/coverIcons/img (${item.diaryCover}).svg`)}
                     alt=""
-                    myTurn={item.myTurn}
+                    myturn={item.myTurn}
                     joined={item.isJoined}
                   />
                   {item.isJoined == 0 ? <NewTxt>NEW</NewTxt> : <></>}
@@ -202,19 +172,11 @@ const Home = () => {
         </HomeContainer>
       </BackGroundModal>
       {modalOpen ? (
-        <ModalBack ref={modalRef} onClick={(e) => closeAllModal(e)}>
-          <InvitationModal func={modalOpCl} seq={openItem.seq} title={openItem.name} icon={openItem.icon} />
-        </ModalBack>
+        <InvitationModal func={modalOpCl} seq={openItem.seq} title={openItem.name} icon={openItem.icon} />
       ) : (
         <></>
       )}
-      {createModal ? (
-        <ModalBack ref={modalRef} onClick={(e) => closeAllModal(e)}>
-          <CreateModal func={createModalHandler}></CreateModal>
-        </ModalBack>
-      ) : (
-        <></>
-      )}
+      {createModal ? <CreateModal func={createModalHandler}></CreateModal> : <></>}
     </HomeWhole>
   );
 };

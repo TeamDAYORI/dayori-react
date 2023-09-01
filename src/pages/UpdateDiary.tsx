@@ -5,7 +5,7 @@ import Input from "components/Input";
 import InviteMembers from "features/diary/InviteMembers";
 import Period from "features/diary/Period";
 import SelectIcon from "features/diary/SelectIcon";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectAccessToken } from "slices/authSlice";

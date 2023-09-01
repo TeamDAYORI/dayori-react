@@ -1,62 +1,13 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { styled } from "styled-components";
-import axios from "axios";
 import api from "api/api";
 import Input from "components/Input";
 import InviteMembers from "features/diary/InviteMembers";
 import Period from "features/diary/Period";
 import SelectIcon from "features/diary/SelectIcon";
 import { useNavigate } from "react-router-dom";
-import { selectAccessToken } from "slices/authSlice";
-
-const ModalContainer = styled.div`
-  z-index: 999;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40%;
-  height: 80vh;
-  font-family: "DOSGothic";
-`;
-
-const StyledTitleBar = styled.div`
-  min-height: 2rem;
-  padding: 0 10px 0 10px;
-  background: #ff6e7f; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #8bd8f0, #f08bec); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    45deg,
-    #8bd8f0,
-    #f08bec
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-`;
-
-const HeaderName = styled.div`
-  font-family: "DOSGothic" !important;
-  font-size: 1.2rem;
-  color: white;
-  margin: 2px 0;
-`;
-
-const HeaderButtons = styled.div`
-  display: flex;
-`;
-
-const ModalBody = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  height: calc(100% - 2rem);
-  margin: auto;
-`;
-
-const Container = styled.div`
-  height: calc(100% - 2vh);
-  overflow: auto;
-  margin: 1vh 0;
-`;
+import CUModal from "./CUModal";
+import Axios from "api/JsonAxios";
 
 const ButtonBox = styled.div`
   width: 100%;
@@ -68,6 +19,12 @@ const AddButton = styled.button`
   height: 40px;
   margin: 0 2rem 2rem;
 `;
+const Text = styled.p<{ flag: string }>`
+  color: ${(props) => (props.flag === "true" ? "red" : "#a587ff")};
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 3% 5%;
+`;
 
 interface createModalProps {
   func: (value: boolean) => void;
@@ -75,10 +32,6 @@ interface createModalProps {
 
 const CreateModal = (props: createModalProps) => {
   const navigate = useNavigate();
-  // close this modal
-  const closeModal = () => {
-    props.func(false);
-  };
 
   const [title, setTitle] = useState("");
   const titleHandler = (value: string) => {
@@ -102,39 +55,40 @@ const CreateModal = (props: createModalProps) => {
 
   const [members, setMembers] = useState([]);
 
+  const [warning, setWarning] = useState(false);
+  const textRef = useRef<HTMLDivElement>(null);
+  const voidContent = () => {
+    textRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const postDiary = () => {
-    axios({
-      method: "POST",
-      url: api.diary.createDiary(),
-      headers: {
-        Authorization: `Bearer ${selectAccessToken}`,
-      },
-      data: {
+    if (title === "" || icon === 0 || period === 0 || password === "") {
+      setWarning(true);
+      voidContent();
+    } else {
+      Axios.post(api.diary.createDiary(), {
         title: title,
         cover: icon,
         duration: period,
         password: password,
         members: members,
-      },
-    }).then((res) => {
-      navigate(`/diary/${res.data.data}`);
-    });
+      }).then((res) => {
+        navigate(`/diary/${res.data.data}`);
+      });
+    }
   };
 
   return (
-    <ModalContainer className="window">
-      <StyledTitleBar className="title-bar">
-        <HeaderName className="title-bar-text">다요리 만들기</HeaderName>
-        <HeaderButtons className="title-bar-controls">
-          {/* <button aria-label="Minimize"></button>
-          <button aria-label="Maximize"></button> */}
-          <button aria-label="Close" onClick={closeModal}></button>
-        </HeaderButtons>
-      </StyledTitleBar>
-      <ModalBody className="window-body">
-        <Container>
+    <CUModal
+      func={props.func}
+      title="다요리 만들기"
+      element={
+        <>
+          <Text flag={warning.toString()} ref={textRef}>
+            제목, 아이콘, 기간, 비밀번호는 필수로 작성해주세요!
+          </Text>
           <Input title="Title" buttonFlag={false} placeHolder="제목을 입력해주세요" func={titleHandler}></Input>
-          <SelectIcon title="Icon" func={iconHandler}></SelectIcon>
+          <SelectIcon title="Icon" origin={0} func={iconHandler}></SelectIcon>
           <Period title="Period" func={periodHandler}></Period>
           <Input
             title="Password"
@@ -146,9 +100,9 @@ const CreateModal = (props: createModalProps) => {
           <ButtonBox>
             <AddButton onClick={postDiary}>생성</AddButton>
           </ButtonBox>
-        </Container>
-      </ModalBody>
-    </ModalContainer>
+        </>
+      }
+    />
   );
 };
 

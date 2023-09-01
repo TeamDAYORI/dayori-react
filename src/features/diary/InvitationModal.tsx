@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "98.css";
 import { styled } from "styled-components";
-import axios from "axios";
 import api from "api/api";
 import { useNavigate } from "react-router-dom";
-import { selectAccessToken } from "slices/authSlice";
+import Axios from "api/JsonAxios";
 
 const ModalContainer = styled.div`
   z-index: 999;
@@ -94,6 +93,15 @@ const ButtonStyle = styled.button`
   font-weight: bold;
 `;
 
+const ModalBack = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+`;
+
 interface modalOpen {
   func: any;
   seq: number;
@@ -108,6 +116,16 @@ const InvitationModal = (props: modalOpen) => {
     props.func(false);
   };
 
+  // 모달 바깥부분 닫기
+  const modalRef = useRef<HTMLDivElement>(null);
+  // curentTarget을 지정하기 위한 useRef
+
+  const closeAllModal = (e: any) => {
+    if (modalRef.current === e.target) {
+      props.func(false);
+    }
+  };
+
   // Accept Invitation
   const [yesContent, setYesContent] = useState(false);
   const clickYes = () => {
@@ -120,15 +138,8 @@ const InvitationModal = (props: modalOpen) => {
   const [warning, setWarning] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
   const acceptInvitation = () => {
-    axios({
-      method: "POST",
-      url: api.diary.acceptInvitation(props.seq),
-      headers: {
-        Authorization: `Bearer ${selectAccessToken}`,
-      },
-      data: {
-        password: password,
-      },
+    Axios.post(api.diary.acceptInvitation(props.seq), {
+      password: password,
     })
       .then((res) => {
         console.log(res);
@@ -144,47 +155,56 @@ const InvitationModal = (props: modalOpen) => {
 
   // Refusal of Invitation
   const refuseInvitation = () => {
-    axios({
-      method: "POST",
-      url: api.diary.refuseInvitation(props.seq),
-      headers: {
-        Authorization: `Bearer ${selectAccessToken}`,
-      },
-    }).then((res) => {
+    Axios.post(api.diary.refuseInvitation(props.seq)).then((res) => {
       closeModal();
     });
   };
 
   return (
-    <ModalContainer className="window">
-      <StyledTitleBar className="title-bar">
-        <HeaderName className="title-bar-text">초대장</HeaderName>
-        <HeaderButtons className="title-bar-controls">
-          <button aria-label="Minimize"></button>
-          <button aria-label="Maximize"></button>
-          <button aria-label="Close" onClick={closeModal}></button>
-        </HeaderButtons>
-      </StyledTitleBar>
-      <ModalBody className="window-body">
-        {!isJoined ? (
-          !yesContent ? (
-            <div style={{ margin: "auto" }}>
-              <BodyContent>
-                <DiaryImg src={require(`assets/coverIcons/img (${props.icon}).svg`)} />
-                <BodyTxt>[{props.title}]</BodyTxt>
-              </BodyContent>
-              <BodyContent>
-                <BodyTxt>에 참여하시겠습니까?</BodyTxt>
-              </BodyContent>
-              <YN>
-                <BodyTxt style={{ color: "blue" }} onClick={clickYes}>
-                  예
-                </BodyTxt>
-                <BodyTxt style={{ color: "red" }} onClick={refuseInvitation}>
-                  아니오
-                </BodyTxt>
-              </YN>
-            </div>
+    <ModalBack ref={modalRef} onClick={(e) => closeAllModal(e)}>
+      <ModalContainer className="window">
+        <StyledTitleBar className="title-bar">
+          <HeaderName className="title-bar-text">초대장</HeaderName>
+          <HeaderButtons className="title-bar-controls">
+            <button aria-label="Minimize"></button>
+            <button aria-label="Maximize"></button>
+            <button aria-label="Close" onClick={closeModal}></button>
+          </HeaderButtons>
+        </StyledTitleBar>
+        <ModalBody className="window-body">
+          {!isJoined ? (
+            !yesContent ? (
+              <div style={{ margin: "auto" }}>
+                <BodyContent>
+                  <DiaryImg src={require(`assets/coverIcons/img (${props.icon}).svg`)} />
+                  <BodyTxt>[{props.title}]</BodyTxt>
+                </BodyContent>
+                <BodyContent>
+                  <BodyTxt>에 참여하시겠습니까?</BodyTxt>
+                </BodyContent>
+                <YN>
+                  <BodyTxt style={{ color: "blue" }} onClick={clickYes}>
+                    예
+                  </BodyTxt>
+                  <BodyTxt style={{ color: "red" }} onClick={refuseInvitation}>
+                    아니오
+                  </BodyTxt>
+                </YN>
+              </div>
+            ) : (
+              <div style={{ margin: "auto" }}>
+                <BodyContent>
+                  <DiaryImg src={require(`assets/coverIcons/img (${props.icon}).svg`)} />
+                  <BodyTxt>[{props.title}]</BodyTxt>
+                </BodyContent>
+                <BodyContent>
+                  <BodyTxt>의 비밀번호를 입력하세요.</BodyTxt>
+                </BodyContent>
+                <PWInput type="text" onChange={pwHandler} value={password} />
+                {warning ? <WarningPW>비밀번호가 다릅니다. 다시 입력해주세요.</WarningPW> : <WarningPW>.</WarningPW>}
+                <ButtonStyle onClick={acceptInvitation}>확인</ButtonStyle>
+              </div>
+            )
           ) : (
             <div style={{ margin: "auto" }}>
               <BodyContent>
@@ -192,30 +212,17 @@ const InvitationModal = (props: modalOpen) => {
                 <BodyTxt>[{props.title}]</BodyTxt>
               </BodyContent>
               <BodyContent>
-                <BodyTxt>의 비밀번호를 입력하세요.</BodyTxt>
+                <BodyTxt>에 가입했습니다!</BodyTxt>
               </BodyContent>
-              <PWInput type="text" onChange={pwHandler} value={password} />
-              {warning ? <WarningPW>비밀번호가 다릅니다. 다시 입력해주세요.</WarningPW> : <WarningPW>.</WarningPW>}
-              <ButtonStyle onClick={acceptInvitation}>확인</ButtonStyle>
+              <YN>
+                <BodyTxt onClick={() => closeModal()}>홈으로</BodyTxt>
+                <BodyTxt onClick={() => navigate(`/diary/${props.seq}`)}>{props.title}로</BodyTxt>
+              </YN>
             </div>
-          )
-        ) : (
-          <div style={{ margin: "auto" }}>
-            <BodyContent>
-              <DiaryImg src={require(`assets/coverIcons/img (${props.icon}).svg`)} />
-              <BodyTxt>[{props.title}]</BodyTxt>
-            </BodyContent>
-            <BodyContent>
-              <BodyTxt>에 가입했습니다!</BodyTxt>
-            </BodyContent>
-            <YN>
-              <BodyTxt onClick={() => closeModal()}>홈으로</BodyTxt>
-              <BodyTxt onClick={() => navigate(`/diary/${props.seq}`)}>{props.title}로</BodyTxt>
-            </YN>
-          </div>
-        )}
-      </ModalBody>
-    </ModalContainer>
+          )}
+        </ModalBody>
+      </ModalContainer>
+    </ModalBack>
   );
 };
 

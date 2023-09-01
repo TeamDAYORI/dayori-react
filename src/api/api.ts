@@ -1,6 +1,6 @@
-// const HOST = process.env.REACT_APP_API_BASE_URL + "/api/";
+const HOST = process.env.REACT_APP_API_BASE_URL + "/api/";
 // const HOST = "http://localhost:8080/api/";
-const HOST = "/api/";
+// const HOST = "/api/";
 
 const AUTH = "auth";
 const USER = "user";
