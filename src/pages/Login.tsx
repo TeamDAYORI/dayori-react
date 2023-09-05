@@ -48,6 +48,7 @@ const Login = () => {
           </div>
           <div className={styles.login_input}>
             <Input
+              type="email"
               title="Email"
               value={email}
               placeHolder="Email을 입력하세요."
@@ -55,6 +56,7 @@ const Login = () => {
               func={emailHandler}
             />
             <Input
+              type="password"
               title="Password"
               value={password}
               placeHolder="비밀번호를 입력하세요."

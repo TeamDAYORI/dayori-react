@@ -18,14 +18,15 @@ const InputContent = styled.div<{ flag: string }>`
   grid-template-columns: ${(props) => (props.flag === "true" ? "2fr 1fr" : "1fr")};
 `;
 
-interface InputProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  buttonFlag?: boolean;
-  value?: string;
+interface InputProps {
+  type: string;
   title: string;
+  func: any;
+  value?: string;
+  placeHolder?: string;
+  buttonFlag?: boolean;
   buttonLabelProps?: string;
   clickFunc?: any;
-  func: any;
-  placeHolder?: string;
 }
 
 const Input = (props: InputProps & testProps) => {
@@ -37,6 +38,7 @@ const Input = (props: InputProps & testProps) => {
       <InputTitle title={props.title}></InputTitle>
       <InputContent flag={props.buttonFlag.toString()}>
         <InputBox
+          type={props.type}
           change={onChangeValue}
           value={props.value}
           buttonFlag={props.buttonFlag}

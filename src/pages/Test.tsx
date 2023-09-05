@@ -32,6 +32,7 @@ const Test = () => {
       <Header title="제목" />
       <div onClick={modalHandler}>test</div>
       <Input
+        type="text"
         title="TITLE"
         buttonLabelProps="버튼 확인"
         clickFunc={testButton}

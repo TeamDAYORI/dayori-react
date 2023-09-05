@@ -22,7 +22,7 @@ const InputBox = (props: any) => {
   };
   return (
     <Container>
-      <InputTag type="text" onChange={changeHandler} placeholder={props.placeHolder} value={props.value} />
+      <InputTag type={props.type} onChange={changeHandler} placeholder={props.placeHolder} value={props.value} />
     </Container>
   );
 };
