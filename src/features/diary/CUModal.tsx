@@ -46,7 +46,9 @@ const ModalBody = styled.div`
 
 const Container = styled.div`
   height: calc(100% - 2vh);
-  overflow: auto;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
   margin: 1vh 0;
 `;
 
@@ -60,7 +62,7 @@ const ModalBack = styled.div`
 `;
 
 interface ModalPropsType {
-  func: (value: boolean) => void;
+  func?: (value: boolean) => void;
   title: string;
   element: JSX.Element;
 }
@@ -76,7 +78,7 @@ const CUModal = (props: ModalPropsType) => {
   // curentTarget을 지정하기 위한 useRef
 
   const closeAllModal = (e: any) => {
-    if (modalRef.current === e.target) {
+    if (props.func && modalRef.current === e.target) {
       props.func(false);
     }
   };

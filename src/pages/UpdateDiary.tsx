@@ -75,10 +75,22 @@ const UpdateDiary = () => {
     <div style={{ height: "100%" }}>
       <Header title="다요리 설정" close={true} maximize={true}></Header>
       <Container>
-        <Input title="Title" buttonFlag={false} placeHolder="제목을 입력해주세요" func={titleHandler}></Input>
+        <Input
+          type="text"
+          title="Title"
+          buttonFlag={false}
+          placeHolder="제목을 입력해주세요"
+          func={titleHandler}
+        ></Input>
         <SelectIcon title="Icon" func={iconHandler}></SelectIcon>
         <Period title="Period" func={periodHandler}></Period>
-        <Input title="Password" buttonFlag={false} placeHolder="비밀번호를 입력해주세요" func={passwordHandler}></Input>
+        <Input
+          type="password"
+          title="Password"
+          buttonFlag={false}
+          placeHolder="비밀번호를 입력해주세요"
+          func={passwordHandler}
+        ></Input>
         <InviteMembers title="Invite" members={members} memberHandler={setMembers} diaryId={0}></InviteMembers>
         <ButtonBox>
           <AddButton onClick={postDiary}>생성</AddButton>

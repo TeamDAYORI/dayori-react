@@ -95,6 +95,7 @@ const SetDiaryModal = (props: settingModalProps) => {
             제목, 아이콘, 기간, 비밀번호는 필수로 작성해주세요!
           </Text>
           <Input
+            type="text"
             title="Title"
             value={title}
             buttonFlag={false}
@@ -104,6 +105,7 @@ const SetDiaryModal = (props: settingModalProps) => {
           <SelectIcon title="Icon" origin={icon} func={iconHandler}></SelectIcon>
           <Period title="Period" value={period} func={periodHandler}></Period>
           <Input
+            type="password"
             title="Password"
             buttonFlag={false}
             value={password}

@@ -87,10 +87,17 @@ const CreateModal = (props: createModalProps) => {
           <Text flag={warning.toString()} ref={textRef}>
             제목, 아이콘, 기간, 비밀번호는 필수로 작성해주세요!
           </Text>
-          <Input title="Title" buttonFlag={false} placeHolder="제목을 입력해주세요" func={titleHandler}></Input>
+          <Input
+            type="text"
+            title="Title"
+            buttonFlag={false}
+            placeHolder="제목을 입력해주세요"
+            func={titleHandler}
+          ></Input>
           <SelectIcon title="Icon" origin={0} func={iconHandler}></SelectIcon>
           <Period title="Period" func={periodHandler}></Period>
           <Input
+            type="password"
             title="Password"
             buttonFlag={false}
             placeHolder="비밀번호를 입력해주세요"
